@@ -19,7 +19,9 @@ use crate::session::use_session;
 use crate::state::build::{Fit, catalog};
 use crate::state::{use_build, use_cart, use_stock};
 use crate::ui::markdown::Markdown;
-use crate::ui::product::{ProductCard, ProductTile, category_plural, key_specs, product_image, spec_rows};
+use crate::ui::product::{
+    ProductCard, ProductTile, category_plural, key_specs, product_image, spec_rows,
+};
 use crate::ui::{EmptyState, FitBadge, Icon, IconName, MoneyText, Mono, SeverityIcon, StockBadge};
 
 /// Up to this many "works well with" products per other category.
