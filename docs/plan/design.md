@@ -144,9 +144,10 @@ is unlayered on purpose (daisyUI 5 puts `.btn` in layers that beat
 - **Icons:** Lucide, one consistent stroke icon set, through
   `dioxus-free-icons` if it supports Dioxus 0.7, otherwise a small
   inline SVG module.
-- **Product imagery:** no photos. Each category gets a clean line
-  illustration or icon on a tinted tile, plus the fictional brand's
-  wordmark in text. It is consistent, light, and has no rights issues.
+- **Product imagery:** each product has a generated studio photo on white
+  (`apps/web/public/products/<id>.webp`, no text or logos in the image), plus
+  the fictional brand's wordmark in text. Small line items (cart, checkout,
+  order cards) keep the category icon on a tinted tile.
 
 ## Status vocabulary (one badge per meaning, everywhere)
 

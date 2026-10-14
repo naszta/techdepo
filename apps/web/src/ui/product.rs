@@ -1,4 +1,4 @@
-//! How products look: the category tile (no photos, design.md "Product imagery"), key specs
+//! How products look: the product tile (photo or category icon, design.md "Product imagery"), key specs
 //! for listings, the full spec table, and the product card.
 
 use dioxus::prelude::*;
@@ -39,17 +39,28 @@ pub fn category_plural(category: Category) -> &'static str {
     }
 }
 
-/// A category icon on a tinted tile, with the brand wordmark when given.
+/// The generated product photo (`public/products/<id>.webp`).
+pub fn product_image(product: &Product) -> Option<String> {
+    Some(format!("/products/{}.webp", product.id))
+}
+
+/// A category icon on a tinted tile (or the product photo when given), with the brand wordmark
+/// when given.
 #[component]
 pub fn ProductTile(
     category: Category,
     #[props(default)] brand: Option<String>,
+    #[props(default)] image: Option<String>,
     #[props(default = "aspect-[4/3]".to_string())] class: String,
     #[props(default = "size-10".to_string())] icon_class: String,
 ) -> Element {
     rsx! {
-        div { class: "relative flex items-center justify-center rounded-box bg-primary/8 text-primary {class}",
-            Icon { name: category_icon(category), class: "{icon_class} stroke-[1.5]" }
+        div { class: "relative flex items-center justify-center overflow-hidden rounded-box bg-primary/8 text-primary {class}",
+            if let Some(src) = image {
+                img { src, alt: "", loading: "lazy", class: "size-full bg-white object-contain" }
+            } else {
+                Icon { name: category_icon(category), class: "{icon_class} stroke-[1.5]" }
+            }
             if let Some(brand) = brand {
                 span { class: "absolute bottom-2 left-3 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-primary/70",
                     "{brand}"
@@ -334,7 +345,7 @@ pub fn ProductCard(
         article { class: "card card-border bg-base-100 border-base-300 transition-colors hover:border-primary/40",
             Link { to: Route::Product { id: id.clone() }, class: "block p-3 pb-0",
                 // A one-column phone grid gets a flatter tile: the icon is decoration, not content.
-                ProductTile { category: product.category, brand: Some(product.brand.clone()), class: "aspect-[2/1] sm:aspect-[4/3]" }
+                ProductTile { category: product.category, brand: Some(product.brand.clone()), image: product_image(product), class: "aspect-[2/1] sm:aspect-[4/3]" }
             }
             div { class: "card-body gap-2 p-4",
                 Link { to: Route::Product { id }, class: "font-semibold leading-snug hover:text-primary",

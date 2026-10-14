@@ -7,7 +7,7 @@ use crate::pages::PageHeader;
 use crate::routes::Route;
 use crate::state::build::catalog;
 use crate::state::use_build;
-use crate::ui::product::{ProductTile, category_plural, spec_rows};
+use crate::ui::product::{ProductTile, category_plural, product_image, spec_rows};
 use crate::ui::{EmptyState, FitBadge, IconName, MoneyText};
 
 #[component]
@@ -63,7 +63,7 @@ pub fn Compare(ids: String) -> Element {
                         for product in products.iter().copied() {
                             th { key: "{product.id}", class: "align-top",
                                 div { class: "flex flex-col gap-2 font-normal",
-                                    ProductTile { category: product.category, brand: Some(product.brand.clone()), class: "aspect-[4/3] w-full" }
+                                    ProductTile { category: product.category, brand: Some(product.brand.clone()), image: product_image(product), class: "aspect-[4/3] w-full" }
                                     Link { to: Route::Product { id: product.id.to_string() }, class: "font-semibold text-base-content hover:text-primary",
                                         "{product.name}"
                                     }
