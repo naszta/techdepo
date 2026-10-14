@@ -1,0 +1,280 @@
+# Cases. Schema: data/catalog/README.md
+#
+# Tiers by price: budget < €80, mid €80–€149.99, high ≥ €150.
+# Convention: an ATX-only case lists only `atx` PSUs (no SFX bracket is
+# included, so an SFX unit needs one: a warning); a case that ships with an
+# SFX bracket lists both. `max_gpu_slots` is the thickest card in expansion slots.
+
+# --- Budget ----------------------------------------------------------------
+
+- id: lattice-core-200
+  sku: CASE-LAT-CORE200
+  brand: Lattice
+  name: Lattice Core 200
+  price_cents: 4990
+  default_stock: 30
+  tier: budget
+  tags: [atx, budget, mid-tower]
+  summary: An affordable ATX mid tower with a mesh front, one fan included and room for 240 mm radiators.
+  spec:
+    size: mid_tower
+    motherboard_form_factors: [atx, micro_atx, mini_itx]
+    max_gpu_length_mm: 315
+    max_gpu_slots: 7
+    max_cooler_height_mm: 158
+    psu_form_factors: [atx]
+    max_psu_length_mm: 170
+    radiator_mounts:
+      - { position: front, sizes_mm: [120, 140, 240] }
+      - { position: top, sizes_mm: [120, 240] }
+      - { position: rear, sizes_mm: [120] }
+    bays_2_5: 2
+    bays_3_5: 2
+    included_fans: 1
+
+- id: lattice-m1-mini
+  sku: CASE-LAT-M1
+  brand: Lattice
+  name: Lattice M1 Mini
+  price_cents: 5990
+  default_stock: 20
+  tier: budget
+  tags: [micro-atx, compact, mini-tower]
+  summary: A compact Micro-ATX mini tower that takes ATX power supplies up to 160 mm and 280 mm radiators.
+  spec:
+    size: mini_tower
+    motherboard_form_factors: [micro_atx, mini_itx]
+    max_gpu_length_mm: 320
+    max_gpu_slots: 4
+    max_cooler_height_mm: 160
+    psu_form_factors: [atx]
+    max_psu_length_mm: 160
+    radiator_mounts:
+      - { position: front, sizes_mm: [120, 140, 240, 280] }
+      - { position: top, sizes_mm: [120, 240] }
+      - { position: rear, sizes_mm: [120] }
+    bays_2_5: 2
+    bays_3_5: 1
+    included_fans: 1
+
+- id: lattice-air-400
+  sku: CASE-LAT-AIR400
+  brand: Lattice
+  name: Lattice Air 400
+  price_cents: 6990
+  default_stock: 25
+  tier: budget
+  tags: [airflow, atx, mid-tower]
+  summary: A budget airflow mid tower with three fans included, a 360 mm front radiator mount and 330 mm GPU clearance.
+  spec:
+    size: mid_tower
+    motherboard_form_factors: [atx, micro_atx, mini_itx]
+    max_gpu_length_mm: 330
+    max_gpu_slots: 7
+    max_cooler_height_mm: 162
+    psu_form_factors: [atx]
+    max_psu_length_mm: 180
+    radiator_mounts:
+      - { position: front, sizes_mm: [120, 140, 240, 280, 360] }
+      - { position: top, sizes_mm: [120, 240] }
+      - { position: rear, sizes_mm: [120] }
+    bays_2_5: 2
+    bays_3_5: 2
+    included_fans: 3
+
+# --- Mid -------------------------------------------------------------------
+
+- id: tessel-sliver-itx
+  sku: CASE-TES-SLIVER
+  brand: Tessel
+  name: Tessel Sliver ITX
+  price_cents: 8990
+  default_stock: 12
+  tier: mid
+  tags: [small-form-factor, mini-itx, sfx, slim]
+  summary: A slim Mini-ITX case for SFX power supplies up to 100 mm and low-profile coolers up to 58 mm; no radiator mounts.
+  spec:
+    size: small_form_factor
+    motherboard_form_factors: [mini_itx]
+    max_gpu_length_mm: 285
+    max_gpu_slots: 2
+    max_cooler_height_mm: 58
+    psu_form_factors: [sfx]
+    max_psu_length_mm: 100
+    radiator_mounts: []
+    bays_2_5: 2
+    bays_3_5: 0
+    included_fans: 0
+
+- id: tessel-atlas-mid
+  sku: CASE-TES-ATLAS
+  brand: Tessel
+  name: Tessel Atlas Mid Tower
+  price_cents: 9990
+  default_stock: 20
+  tier: mid
+  tags: [airflow, atx, mid-tower]
+  summary: A high-airflow ATX mid tower with room for 360 mm radiators and long graphics cards.
+  spec:
+    size: mid_tower
+    motherboard_form_factors: [atx, micro_atx, mini_itx]
+    max_gpu_length_mm: 360
+    max_gpu_slots: 7
+    max_cooler_height_mm: 165
+    psu_form_factors: [atx]
+    max_psu_length_mm: 200
+    radiator_mounts:
+      - { position: front, sizes_mm: [240, 280, 360] }
+      - { position: top, sizes_mm: [240, 280] }
+      - { position: rear, sizes_mm: [120] }
+    bays_2_5: 2
+    bays_3_5: 2
+    included_fans: 3
+
+- id: lattice-pocket-itx
+  sku: CASE-LAT-POCKET
+  brand: Lattice
+  name: Lattice Pocket ITX
+  price_cents: 9990
+  default_stock: 12
+  tier: mid
+  tags: [mini-itx, compact, atx-psu]
+  summary: A compact Mini-ITX tower that takes an ATX or SFX power supply, a 280 mm radiator and 330 mm graphics cards.
+  spec:
+    size: small_form_factor
+    motherboard_form_factors: [mini_itx]
+    max_gpu_length_mm: 330
+    max_gpu_slots: 3
+    max_cooler_height_mm: 160
+    psu_form_factors: [atx, sfx]
+    max_psu_length_mm: 160
+    radiator_mounts:
+      - { position: front, sizes_mm: [120, 140, 240, 280] }
+    bays_2_5: 2
+    bays_3_5: 1
+    included_fans: 2
+
+- id: tessel-cube-m
+  sku: CASE-TES-CUBE-M
+  brand: Tessel
+  name: Tessel Cube M
+  price_cents: 10990
+  default_stock: 14
+  tier: mid
+  tags: [micro-atx, cube, compact]
+  summary: A Micro-ATX cube with a 360 mm top radiator mount, 350 mm GPU clearance and room for an ATX power supply.
+  spec:
+    size: mini_tower
+    motherboard_form_factors: [micro_atx, mini_itx]
+    max_gpu_length_mm: 350
+    max_gpu_slots: 4
+    max_cooler_height_mm: 170
+    psu_form_factors: [atx]
+    max_psu_length_mm: 180
+    radiator_mounts:
+      - { position: top, sizes_mm: [120, 140, 240, 280, 360] }
+      - { position: front, sizes_mm: [120, 240] }
+      - { position: rear, sizes_mm: [120] }
+    bays_2_5: 2
+    bays_3_5: 1
+    included_fans: 2
+
+- id: tessel-nook-itx
+  sku: CASE-TES-NOOK
+  brand: Tessel
+  name: Tessel Nook ITX
+  price_cents: 11990
+  default_stock: 10
+  tier: mid
+  tags: [small-form-factor, mini-itx, sfx]
+  summary: A shoebox-sized Mini-ITX case for SFX power supplies, low-profile coolers and 240 mm AIOs.
+  spec:
+    size: small_form_factor
+    motherboard_form_factors: [mini_itx]
+    max_gpu_length_mm: 300
+    max_gpu_slots: 3
+    max_cooler_height_mm: 70
+    psu_form_factors: [sfx]
+    max_psu_length_mm: 130
+    radiator_mounts:
+      - { position: side, sizes_mm: [120, 240] }
+    bays_2_5: 2
+    bays_3_5: 0
+    included_fans: 0
+
+- id: lattice-flow-500
+  sku: CASE-LAT-FLOW500
+  brand: Lattice
+  name: Lattice Flow 500
+  price_cents: 12990
+  default_stock: 15
+  tier: mid
+  tags: [airflow, atx, mid-tower]
+  summary: A roomy airflow mid tower with 400 mm GPU clearance, 175 mm cooler height and 360 mm radiators front and top.
+  spec:
+    size: mid_tower
+    motherboard_form_factors: [atx, micro_atx, mini_itx]
+    max_gpu_length_mm: 400
+    max_gpu_slots: 7
+    max_cooler_height_mm: 175
+    psu_form_factors: [atx]
+    max_psu_length_mm: 220
+    radiator_mounts:
+      - { position: front, sizes_mm: [120, 140, 240, 280, 360] }
+      - { position: top, sizes_mm: [120, 140, 240, 280, 360] }
+      - { position: rear, sizes_mm: [120, 140] }
+    bays_2_5: 2
+    bays_3_5: 2
+    included_fans: 3
+
+# --- High ------------------------------------------------------------------
+
+- id: lattice-glass-600
+  sku: CASE-LAT-GLASS600
+  brand: Lattice
+  name: Lattice Glass 600
+  price_cents: 15990
+  default_stock: 12
+  tier: high
+  tags: [showcase, dual-chamber, atx]
+  summary: A dual-chamber glass showcase case with 410 mm GPU clearance and three 360 mm radiator mounts; fans not included.
+  spec:
+    size: mid_tower
+    motherboard_form_factors: [atx, micro_atx, mini_itx]
+    max_gpu_length_mm: 410
+    max_gpu_slots: 7
+    max_cooler_height_mm: 167
+    psu_form_factors: [atx]
+    max_psu_length_mm: 220
+    radiator_mounts:
+      - { position: side, sizes_mm: [120, 240, 360] }
+      - { position: top, sizes_mm: [120, 240, 280, 360] }
+      - { position: bottom, sizes_mm: [120, 240, 360] }
+    bays_2_5: 4
+    bays_3_5: 2
+    included_fans: 0
+
+- id: tessel-summit-full
+  sku: CASE-TES-SUMMIT
+  brand: Tessel
+  name: Tessel Summit Full Tower
+  price_cents: 21990
+  default_stock: 8
+  tier: high
+  tags: [full-tower, e-atx, airflow, workstation]
+  summary: A full tower for E-ATX boards, 420 mm radiators and the longest graphics cards, with four fans included.
+  spec:
+    size: full_tower
+    motherboard_form_factors: [e_atx, atx, micro_atx, mini_itx]
+    max_gpu_length_mm: 420
+    max_gpu_slots: 8
+    max_cooler_height_mm: 185
+    psu_form_factors: [atx]
+    max_psu_length_mm: 250
+    radiator_mounts:
+      - { position: front, sizes_mm: [120, 140, 240, 280, 360, 420] }
+      - { position: top, sizes_mm: [120, 140, 240, 280, 360, 420] }
+      - { position: rear, sizes_mm: [120, 140] }
+    bays_2_5: 4
+    bays_3_5: 6
+    included_fans: 4

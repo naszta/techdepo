@@ -1,0 +1,203 @@
+# Storage drives. Schema: data/catalog/README.md
+#
+# Tiers follow the interface class, not the price (a big SATA drive can cost
+# more than a small fast one): budget = SATA, HDD or PCIe 3.0 NVMe,
+# mid = PCIe 4.0 NVMe, high = PCIe 5.0 NVMe.
+
+# --- Budget: SATA, HDD and PCIe 3.0 ----------------------------------------
+
+- id: arcwave-a3-500gb
+  sku: SSD-ARC-A3-500GB
+  brand: Arcwave
+  name: Arcwave A3 500 GB
+  price_cents: 3990
+  default_stock: 50
+  tier: budget
+  tags: [nvme, budget, boot-drive]
+  summary: A 500 GB PCIe 3.0 NVMe SSD, an inexpensive boot drive for office PCs and starter builds.
+  spec:
+    form_factor: m2_2280
+    interface: { type: nvme, pcie_gen: 3 }
+    capacity_gb: 500
+    read_mbps: 3500
+    write_mbps: 2300
+
+- id: arcwave-a3-1tb
+  sku: SSD-ARC-A3-1TB
+  brand: Arcwave
+  name: Arcwave A3 1 TB
+  price_cents: 5490
+  default_stock: 50
+  tier: budget
+  tags: [nvme, budget, boot-drive]
+  summary: A 1 TB PCIe 3.0 NVMe SSD that fits any M.2 M-key slot and makes a quick, affordable system drive.
+  spec:
+    form_factor: m2_2280
+    interface: { type: nvme, pcie_gen: 3 }
+    capacity_gb: 1000
+    read_mbps: 3500
+    write_mbps: 3000
+
+- id: lodestar-q3-2tb
+  sku: SSD-LOD-Q3-2TB
+  brand: Lodestar
+  name: Lodestar Q3 2 TB
+  price_cents: 9990
+  default_stock: 25
+  tier: budget
+  tags: [nvme, qlc, game-library]
+  summary: A 2 TB PCIe 3.0 NVMe drive with QLC flash, made for large game libraries at a low price per terabyte.
+  spec:
+    form_factor: m2_2280
+    interface: { type: nvme, pcie_gen: 3 }
+    capacity_gb: 2000
+    read_mbps: 3300
+    write_mbps: 2800
+
+- id: lodestar-glide-1tb
+  sku: SSD-LOD-GLIDE-1TB
+  brand: Lodestar
+  name: Lodestar Glide M.2 SATA 1 TB
+  price_cents: 5990
+  default_stock: 20
+  tier: budget
+  tags: [sata, m2-sata, upgrade]
+  summary: A 1 TB M.2 SSD that uses the SATA protocol, for older laptops and boards whose M.2 slots accept SATA drives.
+  spec:
+    form_factor: m2_2280
+    interface: { type: sata }
+    capacity_gb: 1000
+    read_mbps: 550
+    write_mbps: 500
+
+- id: arcwave-s2-1tb
+  sku: SSD-ARC-S2-1TB
+  brand: Arcwave
+  name: Arcwave S2 1 TB
+  price_cents: 6490
+  default_stock: 35
+  tier: budget
+  tags: [sata, upgrade]
+  summary: A 1 TB 2.5-inch SATA SSD that breathes new life into an older PC or adds quiet extra storage.
+  spec:
+    form_factor: "2.5in"
+    interface: { type: sata }
+    capacity_gb: 1000
+    read_mbps: 550
+    write_mbps: 510
+
+- id: arcwave-s2-2tb
+  sku: SSD-ARC-S2-2TB
+  brand: Arcwave
+  name: Arcwave S2 2 TB
+  price_cents: 9990
+  default_stock: 30
+  tier: budget
+  tags: [sata, bulk-storage]
+  summary: A 2 TB 2.5-inch SATA SSD for roomy, quiet storage in any build with a free SATA port.
+  spec:
+    form_factor: "2.5in"
+    interface: { type: sata }
+    capacity_gb: 2000
+    read_mbps: 550
+    write_mbps: 520
+
+- id: lodestar-vault-4tb
+  sku: HDD-LOD-VAULT-4TB
+  brand: Lodestar
+  name: Lodestar Vault 4 TB
+  price_cents: 9490
+  default_stock: 20
+  tier: budget
+  tags: [hdd, bulk-storage, backup]
+  summary: A 4 TB 3.5-inch hard drive for backups, photos and media; needs a 3.5-inch bay and a SATA port.
+  spec:
+    form_factor: "3.5in"
+    interface: { type: sata }
+    capacity_gb: 4000
+    read_mbps: 190
+    write_mbps: 190
+
+# --- Mid: PCIe 4.0 ---------------------------------------------------------
+
+- id: arcwave-a4-1tb
+  sku: SSD-ARC-A4-1TB
+  brand: Arcwave
+  name: Arcwave A4 1 TB
+  price_cents: 7490
+  default_stock: 45
+  tier: mid
+  tags: [nvme, gaming, boot-drive]
+  summary: A fast 1 TB PCIe 4.0 NVMe SSD that makes an excellent boot and game drive.
+  spec:
+    form_factor: m2_2280
+    interface: { type: nvme, pcie_gen: 4 }
+    capacity_gb: 1000
+    read_mbps: 7000
+    write_mbps: 6000
+
+- id: arcwave-a4-2tb
+  sku: SSD-ARC-A4-2TB
+  brand: Arcwave
+  name: Arcwave A4 2 TB
+  price_cents: 13490
+  default_stock: 30
+  tier: mid
+  tags: [nvme, gaming, boot-drive]
+  summary: A 2 TB PCIe 4.0 NVMe SSD with room for the system and a large game library on one drive.
+  spec:
+    form_factor: m2_2280
+    interface: { type: nvme, pcie_gen: 4 }
+    capacity_gb: 2000
+    read_mbps: 7300
+    write_mbps: 6900
+
+- id: lodestar-q4-4tb
+  sku: SSD-LOD-Q4-4TB
+  brand: Lodestar
+  name: Lodestar Q4 4 TB
+  price_cents: 24990
+  default_stock: 12
+  tier: mid
+  tags: [nvme, qlc, game-library]
+  summary: A 4 TB PCIe 4.0 NVMe drive with QLC flash, lots of fast capacity for games and media in a single M.2 slot.
+  spec:
+    form_factor: m2_2280
+    interface: { type: nvme, pcie_gen: 4 }
+    capacity_gb: 4000
+    read_mbps: 7000
+    write_mbps: 6200
+
+# --- High: PCIe 5.0 --------------------------------------------------------
+
+- id: arcwave-a5-2tb
+  sku: SSD-ARC-A5-2TB
+  brand: Arcwave
+  name: Arcwave A5 2 TB
+  price_cents: 23990
+  default_stock: 12
+  tier: high
+  tags: [nvme, pcie-5, workstation]
+  summary: A 2 TB PCIe 5.0 NVMe SSD with over 12 GB/s reads for large project files; runs at Gen 4 speed in Gen 4 slots.
+  spec:
+    form_factor: m2_2280
+    interface: { type: nvme, pcie_gen: 5 }
+    capacity_gb: 2000
+    read_mbps: 12400
+    write_mbps: 11800
+
+- id: arcwave-a5-4tb
+  sku: SSD-ARC-A5-4TB
+  brand: Arcwave
+  name: Arcwave A5 4 TB
+  price_cents: 42990
+  default_stock: 6
+  tier: high
+  tags: [nvme, pcie-5, workstation]
+  summary: A 4 TB PCIe 5.0 NVMe SSD at up to 14.5 GB/s for video editing, datasets and heavy workstations.
+  spec:
+    form_factor: m2_2280
+    interface: { type: nvme, pcie_gen: 5 }
+    capacity_gb: 4000
+    read_mbps: 14500
+    write_mbps: 12700

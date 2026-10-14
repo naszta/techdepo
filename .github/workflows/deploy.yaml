@@ -1,0 +1,107 @@
+name: Deploy
+
+run-name: Deploy ${{ inputs.environment }} (${{ github.ref_name }})
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Where to deploy (docs/deploy.md)
+        type: choice
+        options:
+          - dev
+          - live
+        required: true
+      secrets:
+        description: Also upload the Workers' secrets (scripts/deploy.sh --secrets)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+defaults:
+  run:
+    # Every step runs in the devenv shell, with the project's toolchain.
+    shell: devenv shell -- bash -e {0}
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.environment }}
+    # Off until the accounts exist (docs/deploy.md): set the repository variable DEPLOY=true.
+    if: vars.DEPLOY == 'true'
+    runs-on: ubuntu-latest
+
+    # The GitHub environment `dev` or `live` holds that deployment's secrets and variables
+    # (docs/deploy.md); protection rules (reviewers, branches) go on the environment.
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.environment == 'live' && 'https://techdepo.dev' || 'https://techdepo-dev-web.vibekoders.workers.dev' }}
+
+    concurrency:
+      group: deploy-${{ inputs.environment }}
+      cancel-in-progress: false
+
+    steps:
+      - name: Only main goes live
+        if: inputs.environment == 'live' && github.ref != 'refs/heads/main'
+        shell: bash
+        run: |
+          echo "::error::live deploys run from main, not $GITHUB_REF"
+          exit 1
+
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up devenv
+        uses: sagikazarmark/setup-devenv@f2d55def32daee3f89bb3dfa0499b439a988392a # v0.2.0
+
+      - name: Set up Rust cache
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          save-if: false
+          cmd-format: devenv shell -- {0}
+
+      # Release builds (SPA, three Workers), D1 migrations, the services worker as a version
+      # registered with the environment's Restate Cloud before it takes traffic, then the web and
+      # mail-in workers.
+      - name: Deploy
+        run: |
+          args=(--env "$DEPLOY_ENV")
+          if [[ "$UPLOAD_SECRETS" == true ]]; then args+=(--secrets); fi
+          scripts/deploy.sh "${args[@]}"
+        env:
+          DEPLOY_ENV: ${{ inputs.environment }}
+          UPLOAD_SECRETS: ${{ inputs.secrets }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
+          RESTATE_INGRESS_URL: ${{ vars.RESTATE_INGRESS_URL }}
+          RESTATE_ADMIN_URL: ${{ secrets.RESTATE_ADMIN_URL }}
+          RESTATE_ADMIN_TOKEN: ${{ secrets.RESTATE_ADMIN_TOKEN }}
+          CLERK_PUBLISHABLE_KEY: ${{ vars.CLERK_PUBLISHABLE_KEY }}
+          CLERK_AUTHORIZED_PARTIES: ${{ vars.CLERK_AUTHORIZED_PARTIES }}
+          DEPLOY_MESSAGE: ${{ github.sha }}
+          # Optional model settings (unset: the wrangler.toml and code defaults).
+          LLM_BACKEND: ${{ vars.LLM_BACKEND }}
+          AI_AGENT_MODEL: ${{ vars.AI_AGENT_MODEL }}
+          AI_CLASSIFIER_MODEL: ${{ vars.AI_CLASSIFIER_MODEL }}
+          AI_FALLBACK_CLASSIFIER: ${{ vars.AI_FALLBACK_CLASSIFIER }}
+          LLM_DAILY_TOKEN_BUDGET_PER_ORG: ${{ vars.LLM_DAILY_TOKEN_BUDGET_PER_ORG }}
+          LLM_DAILY_TOKEN_BUDGET_GLOBAL: ${{ vars.LLM_DAILY_TOKEN_BUDGET_GLOBAL }}
+          # Uploaded only with the `secrets` input.
+          RESTATE_IDENTITY_KEYS: ${{ secrets.RESTATE_IDENTITY_KEYS }}
+          RESTATE_API_KEY: ${{ secrets.RESTATE_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_RESOURCE: ${{ secrets.AZURE_OPENAI_RESOURCE }}

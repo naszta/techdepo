@@ -1,0 +1,36 @@
+[package]
+name = "techdepo-db"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+techdepo-domain.workspace = true
+techdepo-catalog.workspace = true
+techdepo-compat.workspace = true
+techdepo-api-types.workspace = true
+techdepo-ports.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+time.workspace = true
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+worker.workspace = true
+send_wrapper.workspace = true
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+rusqlite = { workspace = true, optional = true }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
+techdepo-db = { path = ".", features = ["sqlite"] }
+techdepo-ports.workspace = true
+futures.workspace = true
+
+[features]
+# Native SQLite `SqlExecutor` (`techdepo_db::SqliteExecutor`) with the migrations applied: tests
+# today, the rusqlite backend for e2e later.
+sqlite = ["dep:rusqlite"]

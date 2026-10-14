@@ -1,0 +1,29 @@
+[package]
+name = "techdepo-web-worker"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+techdepo-api-types.workspace = true
+techdepo-catalog.workspace = true
+techdepo-compat.workspace = true
+techdepo-domain.workspace = true
+techdepo-db.workspace = true
+techdepo-ports.workspace = true
+dioxus-clerk = { workspace = true, features = ["worker"] }
+worker.workspace = true
+worker-macros.workspace = true
+axum.workspace = true
+tower-service.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+send_wrapper.workspace = true
+wasm-bindgen.workspace = true
+time.workspace = true
+base64.workspace = true

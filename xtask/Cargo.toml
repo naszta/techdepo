@@ -1,0 +1,45 @@
+[package]
+name = "xtask"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+# The providers `xtask eval` can reach (model address keys). All on by default: xtask runs
+# locally; the Workers only use the AI binding (allama-cloudflare-worker).
+[features]
+default = ["anthropic", "openai", "azure", "cloudflare", "gemini"]
+anthropic = ["allama-providers/anthropic"]
+openai = ["allama-providers/openai"]
+# `azure` (Chat Completions) and `azure-responses`.
+azure = ["allama-providers/openai-compat"]
+# Chat over the OpenAI-compatible API, Clef decisions over System One.
+cloudflare = ["allama-providers/openai-compat", "allama-providers/systemone"]
+gemini = ["allama-providers/gemini"]
+
+[dependencies]
+techdepo-domain.workspace = true
+techdepo-catalog.workspace = true
+techdepo-compat.workspace = true
+# `xtask eval`: the router's decision and the agent pipeline, natively over SQLite.
+techdepo-services.workspace = true
+techdepo-db = { workspace = true, features = ["sqlite"] }
+techdepo-llm.workspace = true
+techdepo-agent.workspace = true
+techdepo-api-types.workspace = true
+techdepo-ports = { workspace = true, features = ["testing"] }
+# The eval models, from model addresses; the providers are this crate's features.
+allama.workspace = true
+allama-providers.workspace = true
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+time.workspace = true
+tokio.workspace = true
+
+# Native dev tooling (tokio, SQLite).
+[[package.metadata.dagger.modules]]
+name = "rust"
+targets = ["host"]

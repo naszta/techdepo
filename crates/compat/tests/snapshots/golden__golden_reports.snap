@@ -1,0 +1,80 @@
+---
+source: crates/compat/tests/golden.rs
+expression: out
+---
+## am5_gaming
+parts: voltaris-v5-8600, kestrel-b650m-wing, nimbus-ddr5-6000-32, arcwave-a4-1tb, halcyon-hx6060-dual, tessel-atlas-mid, ferro-core-650, breeze-glacier-240
+verdict: warnings | estimate 377 W, 650 W PSU, 42 % headroom
+- warning bios_update: Kestrel B650M Wing ships with BIOS 10, but Obsidian CPUs like Voltaris V5 8600 need BIOS 16 or newer. The board has BIOS Flashback, so you can update it from a USB stick before installing the CPU.
+- note memory_speed: Nimbus Stratus DDR5-6000 32 GB (2x16 GB) is rated for 6000 MT/s, but Voltaris V5 8600 officially supports DDR5 up to 5600 MT/s, so the memory will run at 5600 MT/s. Its EXPO/XMP profile may reach a higher speed, but that isn't guaranteed.
+  fix bios_update -> replace kestrel-b650m-wing with [kestrel-b650-aero, kestrel-b650e-i-perch, meridian-x870e-crest]
+  fix bios_update -> replace voltaris-v5-8600 with [voltaris-v5-7600]
+
+## am4_budget
+parts: voltaris-v5-5600, kestrel-b550-glide, nimbus-ddr4-3200-16, arcwave-s2-2tb, halcyon-hx6060-dual, tessel-atlas-mid, ferro-core-650, breeze-frost-120
+verdict: compatible | estimate 352 W, 650 W PSU, 45 % headroom
+
+## ddr4_on_b650
+parts: kestrel-b650m-wing, nimbus-ddr4-3200-16
+verdict: incompatible | estimate 66 W, no PSU
+- error memory_type: Nimbus Cirrus DDR4-3200 16 GB (2x8 GB) is DDR4 memory, but Kestrel B650M Wing has DDR5 slots. DDR4 and DDR5 modules are keyed differently and won't physically fit.
+  fix memory_type -> replace nimbus-ddr4-3200-16 with [nimbus-ddr5-4800-16, nimbus-ddr5-5600-16, nimbus-ddr5-5200-32, nimbus-ddr5-5600-32, nimbus-ddr5-6000-32]
+  fix memory_type -> replace kestrel-b650m-wing with [kestrel-b550-glide, meridian-b760m-forge-d4, meridian-a520m-core]
+
+## sff_traps
+parts: halcyon-hx7080-triple, tessel-nook-itx, ferro-core-650, breeze-frost-120
+verdict: incompatible | estimate 358 W, 650 W PSU, 44 % headroom
+- error gpu_length: Halcyon HX 7080 Triple is 336 mm long, but Tessel Nook ITX fits graphics cards up to 300 mm (36 mm too long).
+- error gpu_thickness: Halcyon HX 7080 Triple is 3.5-slot thick, but Tessel Nook ITX takes graphics cards up to 3 slots thick.
+- error cooler_height: Breeze Frost 120 is 155 mm tall, but Tessel Nook ITX has room for air coolers up to 70 mm, so the side panel won't close.
+- error psu_form_factor: Ferro Core 650 is ATX, but Tessel Nook ITX only takes SFX power supplies.
+- error gpu_power_connectors: Halcyon HX 7080 Triple needs a 12V-2x6 connector, but Ferro Core 650 has none. Adapters are not counted: a native cable is the safe way to feed a graphics card.
+- note gpu_recommended_psu: Halcyon HX 7080 Triple's maker recommends at least 850 W and Ferro Core 650 has 650 W. Our estimate for this build (358 W) fits, so this is only a heads-up: the recommendation assumes a power-hungry CPU.
+  fix gpu_length -> replace halcyon-hx7080-triple with [aurex-nova-70, halcyon-hx6070-dual, aurex-nova-60, halcyon-hx6060-dual, halcyon-hx6050-solo]
+  fix gpu_length -> replace tessel-nook-itx with [tessel-cube-m, lattice-flow-500, tessel-atlas-mid, lattice-glass-600, tessel-summit-full]
+  fix gpu_thickness -> replace halcyon-hx7080-triple with [aurex-nova-70, halcyon-hx6070-dual, aurex-nova-60, halcyon-hx6060-dual, halcyon-hx6050-solo]
+  fix gpu_thickness -> replace tessel-nook-itx with [tessel-cube-m, lattice-flow-500, tessel-atlas-mid, lattice-glass-600, tessel-summit-full]
+  fix cooler_height -> replace breeze-frost-120 with [breeze-whisper-lp, coldmark-slim-67, breeze-glacier-120, breeze-glacier-240]
+  fix cooler_height -> replace tessel-nook-itx with [tessel-cube-m, lattice-flow-500, tessel-atlas-mid, lattice-glass-600, tessel-summit-full]
+  fix psu_form_factor -> replace ferro-core-650 with [ferro-sf750, ferro-sf850l]
+  fix psu_form_factor -> replace tessel-nook-itx with [tessel-cube-m, lattice-flow-500, tessel-atlas-mid, lattice-glass-600, tessel-summit-full]
+  fix gpu_power_connectors -> replace halcyon-hx7080-triple with [aurex-nova-70, halcyon-hx6070-dual, aurex-nova-60, halcyon-hx6060-dual, halcyon-hx6050-solo]
+  fix gpu_power_connectors -> replace ferro-core-650 with [ferro-sf750, ferro-sf850l]
+
+## no_video
+parts: voltaris-v5-5600, kestrel-b550-glide, nimbus-ddr4-3200-16
+verdict: warnings | estimate 150 W, no PSU
+- warning no_video_output: Voltaris V5 5600 has no integrated graphics and the build has no graphics card, so the monitor would stay dark. Add a graphics card.
+  fix no_video_output -> add gpu with [aurex-nova-50, halcyon-hx6050-solo, halcyon-hx6060-dual, aurex-nova-60, halcyon-hx6070-dual]
+  fix no_video_output -> replace voltaris-v5-5600 with [voltaris-v5-5600g]
+
+## hot_intel
+parts: helion-h7-1470, meridian-z790-crest, nimbus-ddr5-6000-32, nimbus-ddr5-6000-32, arcwave-a4-1tb, halcyon-hx6060-dual, lattice-flow-500, nordwatt-prime-650, breeze-frost-120
+verdict: warnings | estimate 561 W, 650 W PSU, 13 % headroom
+- warning psu_headroom: Nordwatt Prime 650 is rated for 650 W and the build needs an estimated 561 W (Helion H7 1470 253 W, Halcyon HX 6060 Dual 165 W and other parts 92 W, plus 10 % margin), leaving 13 % headroom. Below 20 % the PSU runs near its limit (louder, hotter, little reserve for load spikes); 750 W or more would be comfortable.
+- warning cooler_tdp: Breeze Frost 120 is rated for 180 W, but Helion H7 1470 draws up to 253 W under sustained load (its TDP is 125 W). It will work, but the CPU will run hot and throttle under long heavy loads.
+- warning cpu_power_connectors: Meridian Z790 Crest has 2 8-pin CPU power headers, but Nordwatt Prime 650 has 1 CPU (EPS) cable. The board runs with one connected, but Helion H7 1470 draws up to 253 W and may be held back under sustained heavy load without the second.
+- note memory_speed: 2× Nimbus Stratus DDR5-6000 32 GB (2x16 GB) are rated for 6000 MT/s, but with 4 modules installed (two per channel) Helion H7 1470 officially supports DDR5 up to 3600 MT/s, so the memory will run at 3600 MT/s. Its EXPO/XMP profile may reach a higher speed, but that isn't guaranteed.
+- note memory_mixed_kits: 2× Nimbus Stratus DDR5-6000 32 GB (2x16 GB) are separate kits that aren't tested as one set. Mixed kits usually work, but a single kit with the same total capacity is the safer choice.
+  fix psu_headroom -> replace nordwatt-prime-650 with [ferro-core-750, nordwatt-prime-750, nordwatt-prime-850, nordwatt-prime-1000, nordwatt-titan-1200]
+  fix psu_headroom -> replace helion-h7-1470 with [helion-h5-1440f, helion-h3-1210]
+  fix psu_headroom -> replace halcyon-hx6060-dual with [halcyon-hx6050-solo, aurex-nova-50]
+  fix cooler_tdp -> replace breeze-frost-120 with [coldmark-peak-duo, coldmark-hydro-280, breeze-glacier-360, coldmark-hydro-360]
+  fix cooler_tdp -> replace helion-h7-1470 with [helion-h5-1440f, helion-h3-1210]
+  fix cpu_power_connectors -> replace meridian-z790-crest with [kestrel-b760-vector]
+  fix cpu_power_connectors -> replace nordwatt-prime-650 with [ferro-core-750, nordwatt-prime-750, nordwatt-prime-850, nordwatt-prime-1000, nordwatt-titan-1200]
+  fix cpu_power_connectors -> replace helion-h7-1470 with [helion-h5-1440f, helion-h3-1210]
+
+## sfx_in_tower
+parts: voltaris-v5-8600, kestrel-b650-aero, lumen-ddr5-7200-32, arcwave-a4-1tb, halcyon-hx6060-dual, lattice-core-200, ferro-sf750, breeze-frost-120
+verdict: incompatible | estimate 362 W, 750 W PSU, 51 % headroom
+- error cooler_height: Breeze Frost 120 is 165 mm tall with its fan raised for Lumen Apex DDR5-7200 32 GB (2x16 GB), but Lattice Core 200 has room for air coolers up to 158 mm, so the side panel won't close.
+- warning ram_clearance: Lumen Apex DDR5-7200 32 GB (2x16 GB) is 52 mm tall, but Breeze Frost 120 leaves 42 mm for memory under its fan. The fan has to sit 10 mm higher, which makes the cooler 165 mm tall; memory up to 42 mm fits without that.
+- warning psu_bracket: Ferro SF750 is SFX, and Lattice Core 200 has a bay for ATX power supplies. It fits with an SFX-to-ATX bracket, which comes with neither part.
+- note memory_speed: Lumen Apex DDR5-7200 32 GB (2x16 GB) is rated for 7200 MT/s, but Voltaris V5 8600 officially supports DDR5 up to 5600 MT/s, so the memory will run at 5600 MT/s. Its EXPO/XMP profile may reach a higher speed, but that isn't guaranteed.
+  fix cooler_height -> replace breeze-frost-120 with [breeze-whisper-lp, coldmark-classic-92, breeze-glacier-120, breeze-glacier-240, coldmark-slim-67]
+  fix cooler_height -> replace lattice-core-200 with [tessel-atlas-mid, lattice-flow-500, lattice-glass-600, tessel-summit-full]
+  fix cooler_height -> replace lumen-ddr5-7200-32 with [nimbus-ddr5-6000-64, nimbus-ddr5-6000-32, nimbus-ddr5-5600-32, nimbus-ddr5-5200-32, nimbus-ddr5-5600-16]
+  fix ram_clearance -> replace breeze-frost-120 with [breeze-whisper-lp, coldmark-classic-92, breeze-glacier-120, breeze-glacier-240]
+  fix ram_clearance -> replace lumen-ddr5-7200-32 with [nimbus-ddr5-6000-64, nimbus-ddr5-6000-32, nimbus-ddr5-5600-32, nimbus-ddr5-5200-32, nimbus-ddr5-5600-16]
+  fix psu_bracket -> replace ferro-sf750 with [nordwatt-prime-850, nordwatt-prime-1000, nordwatt-prime-750, nordwatt-prime-650, ferro-core-750]

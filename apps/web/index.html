@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>TechDepó</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="TechDepó is a demo PC-parts shop. It is not a real store." />
+    <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Built by `npm run css` into public/ (see README.md); not an asset!() so `cargo check` never needs it. -->
+    <link rel="stylesheet" href="/tailwind.css" />
+    <script>
+      // Apply the saved theme before the WASM loads, so there is no flash of the wrong theme.
+      // Without a saved choice, daisyUI follows prefers-color-scheme (techdepo-dark is prefersdark).
+      (function () {
+        try {
+          var t = localStorage.getItem("techdepo.theme");
+          if (t === "techdepo" || t === "techdepo-dark") {
+            document.documentElement.setAttribute("data-theme", t);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-base-100 text-base-content font-sans antialiased">
+    <div id="main"></div>
+  </body>
+</html>

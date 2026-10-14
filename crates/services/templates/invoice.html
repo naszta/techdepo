@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ title }} {{ number }}</title>
+<style>
+  body { font-family: system-ui, sans-serif; color: #1f2937; margin: 2rem; }
+  h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+  .muted { color: #6b7280; }
+  .demo { background: #fef3c7; border: 1px solid #f59e0b; padding: .5rem .75rem; margin-bottom: 1.5rem; }
+  .missing { color: #b91c1c; font-weight: 600; }
+  .parties { display: flex; gap: 4rem; margin: 1.5rem 0; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+  th, td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid #e5e7eb; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tfoot td { font-weight: 600; border-bottom: none; }
+</style>
+</head>
+<body>
+<p class="demo">Demo document from TechDepó, a demo shop. Not a real invoice.</p>
+<h1>{{ title }} {{ number }}</h1>
+<p class="muted">Issued {{ issue_date }} &middot; Order {{ order_number }}</p>
+{% if let Some(note) = note %}<p>{{ note }}</p>{% endif %}
+<div class="parties">
+  <div>
+    <strong>Seller</strong><br>
+    TechDepó Demo Kft.<br>
+    Fő utca 1<br>
+    1011 Budapest<br>
+    HU
+  </div>
+  <div>
+    <strong>Bill to</strong><br>
+    {{ billing_name }}<br>
+    {% if missing_address %}<span class="missing">Billing address missing</span>{% else %}{% for line in billing_lines %}{{ line }}<br>{% endfor %}{% endif %}
+  </div>
+</div>
+<table>
+  <thead>
+    <tr><th>Item</th><th class="num">Qty</th><th class="num">Unit price</th><th class="num">Net</th><th class="num">VAT</th><th class="num">Gross</th></tr>
+  </thead>
+  <tbody>
+  {% for line in lines %}
+    <tr><td>{{ line.description }}</td><td class="num">{{ line.quantity }}</td><td class="num">{{ line.unit }}</td><td class="num">{{ line.net }}</td><td class="num">{{ line.vat }}</td><td class="num">{{ line.gross }}</td></tr>
+  {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr><td colspan="3">Total (VAT {{ vat_rate }})</td><td class="num">{{ net }}</td><td class="num">{{ vat }}</td><td class="num">{{ gross }}</td></tr>
+  </tfoot>
+</table>
+<p class="muted">Prices include VAT. Prepaid order; nothing is due.</p>
+</body>
+</html>

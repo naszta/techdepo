@@ -1,0 +1,15 @@
+name = "ci"
+engineVersion = "v1.0.0"
+runtime.source = "dang"
+
+[[dependencies]]
+name = "worker-build"
+source = "github.com/sagikazarmark/daggerverse-beta/worker-build"
+
+[[dependencies]]
+name = "dioxus"
+source = "github.com/sagikazarmark/daggerverse-beta/dioxus"
+
+[[dependencies]]
+name = "wrangler"
+source = "github.com/sagikazarmark/daggerverse-beta/wrangler"

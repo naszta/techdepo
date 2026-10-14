@@ -1,0 +1,18 @@
+# dx 0.7 configuration for the TechDepó SPA (CSR, web only).
+# CSS is built by the Tailwind CLI (`npm run css`), not dx's built-in Tailwind; see README.md.
+
+[application]
+# Copied verbatim to the bundle root: self-hosted fonts (/fonts/*.woff2).
+public_dir = "public"
+
+[web.app]
+title = "TechDepó"
+
+[web.watcher]
+reload_html = true
+index_on_404 = true
+watch_path = ["src", "public", "index.html"]
+
+# `dx serve --port 8090` forwards /api to the local web worker (wrangler dev on 8787).
+[[web.proxy]]
+backend = "http://localhost:8787/api/"

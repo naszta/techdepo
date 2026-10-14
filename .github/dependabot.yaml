@@ -1,0 +1,36 @@
+version: 2
+
+updates:
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: daily
+    groups:
+      cargo:
+        patterns:
+          - "*"
+    ignore:
+      # Pinned on purpose (CLAUDE.md): worker >= 0.8.6 needs wasm-bindgen >= 0.2.128, but dx 0.7.10
+      # embeds wasm-bindgen 0.2.126.
+      - dependency-name: worker
+      - dependency-name: worker-macros
+      - dependency-name: wasm-bindgen
+
+  # Tailwind CSS + daisyUI for the SPA (scripts/build-web.sh).
+  - package-ecosystem: npm
+    directory: /apps/web
+    schedule:
+      interval: daily
+    groups:
+      npm:
+        patterns:
+          - "*"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    groups:
+      github-actions:
+        patterns:
+          - "*"

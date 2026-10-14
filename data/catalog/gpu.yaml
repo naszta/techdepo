@@ -1,0 +1,225 @@
+# Graphics cards. Schema: data/catalog/README.md
+#
+# Tiers by price: budget < €400, mid €400–€799.99, high ≥ €800.
+
+# --- Budget ----------------------------------------------------------------
+
+- id: aurex-nova-50
+  sku: GPU-AUR-NOVA50
+  brand: Aurex
+  name: Aurex Nova 50
+  price_cents: 15990
+  default_stock: 20
+  tier: budget
+  tags: [slot-powered, compact, office]
+  summary: A short card powered by the slot alone, with no PCIe cable needed, for extra displays and light gaming.
+  spec:
+    length_mm: 170
+    slot_width: 2.0
+    board_power_w: 70
+    power_connectors: { pcie_8pin: 0, twelve_v_2x6: 0 }
+    pcie_gen: 4
+    vram_gb: 6
+    recommended_psu_w: 300
+
+- id: halcyon-hx6050-solo
+  sku: GPU-HAL-HX6050-S
+  brand: Halcyon
+  name: Halcyon HX 6050 Solo
+  price_cents: 21990
+  default_stock: 20
+  tier: budget
+  tags: [1080p, compact, mini-itx]
+  summary: A 178 mm single-fan card for 1080p gaming in the smallest cases, on one 8-pin connector.
+  spec:
+    length_mm: 178
+    slot_width: 2.0
+    board_power_w: 115
+    power_connectors: { pcie_8pin: 1, twelve_v_2x6: 0 }
+    pcie_gen: 4
+    vram_gb: 8
+    recommended_psu_w: 450
+
+- id: halcyon-hx6060-dual
+  sku: GPU-HAL-HX6060-D
+  brand: Halcyon
+  name: Halcyon HX 6060 Dual
+  price_cents: 32990
+  default_stock: 15
+  tier: budget
+  tags: [1080p, compact, efficient]
+  summary: A compact two-fan card for high-refresh 1080p gaming that runs on a single 8-pin connector.
+  spec:
+    length_mm: 242
+    slot_width: 2.0
+    board_power_w: 165
+    power_connectors: { pcie_8pin: 1, twelve_v_2x6: 0 }
+    pcie_gen: 4
+    vram_gb: 8
+    recommended_psu_w: 550
+
+- id: aurex-nova-60
+  sku: GPU-AUR-NOVA60
+  brand: Aurex
+  name: Aurex Nova 60
+  price_cents: 36990
+  default_stock: 15
+  tier: budget
+  tags: [1080p, 1440p, 16gb]
+  summary: A 16 GB card for 1080p and entry 1440p gaming that has room for tomorrow's texture packs.
+  spec:
+    length_mm: 268
+    slot_width: 2.5
+    board_power_w: 190
+    power_connectors: { pcie_8pin: 1, twelve_v_2x6: 0 }
+    pcie_gen: 4
+    vram_gb: 16
+    recommended_psu_w: 550
+
+# --- Mid -------------------------------------------------------------------
+
+- id: halcyon-hx6070-dual
+  sku: GPU-HAL-HX6070-D
+  brand: Halcyon
+  name: Halcyon HX 6070 Dual
+  price_cents: 49990
+  default_stock: 14
+  tier: mid
+  tags: [1440p, compact]
+  summary: A 254 mm two-fan card for 1440p gaming that fits most compact cases and uses two 8-pin connectors.
+  spec:
+    length_mm: 254
+    slot_width: 2.5
+    board_power_w: 220
+    power_connectors: { pcie_8pin: 2, twelve_v_2x6: 0 }
+    pcie_gen: 4
+    vram_gb: 12
+    recommended_psu_w: 650
+
+- id: aurex-nova-70
+  sku: GPU-AUR-NOVA70
+  brand: Aurex
+  name: Aurex Nova 70
+  price_cents: 54990
+  default_stock: 12
+  tier: mid
+  tags: [1440p, 16gb]
+  summary: A 16 GB card for high-refresh 1440p gaming, powered by two standard 8-pin PCIe connectors.
+  spec:
+    length_mm: 287
+    slot_width: 2.5
+    board_power_w: 263
+    power_connectors: { pcie_8pin: 2, twelve_v_2x6: 0 }
+    pcie_gen: 4
+    vram_gb: 16
+    recommended_psu_w: 700
+
+- id: halcyon-hx7070-twin
+  sku: GPU-HAL-HX7070-T
+  brand: Halcyon
+  name: Halcyon HX 7070 Twin
+  price_cents: 62990
+  default_stock: 10
+  tier: mid
+  tags: [1440p, ray-tracing]
+  summary: A 301 mm twin-fan card for high-refresh 1440p and ray tracing, powered by a single 12V-2x6 cable.
+  spec:
+    length_mm: 301
+    slot_width: 2.5
+    board_power_w: 250
+    power_connectors: { pcie_8pin: 0, twelve_v_2x6: 1 }
+    pcie_gen: 5
+    vram_gb: 12
+    recommended_psu_w: 700
+
+- id: halcyon-hx7070-sff
+  sku: GPU-HAL-HX7070-SFF
+  brand: Halcyon
+  name: Halcyon HX 7070 SFF
+  price_cents: 65990
+  default_stock: 8
+  tier: mid
+  tags: [1440p, ray-tracing, compact, small-form-factor]
+  summary: The HX 7070 in a 248 mm body for small-form-factor builds, with the same 12V-2x6 power input.
+  spec:
+    length_mm: 248
+    slot_width: 2.5
+    board_power_w: 250
+    power_connectors: { pcie_8pin: 0, twelve_v_2x6: 1 }
+    pcie_gen: 5
+    vram_gb: 12
+    recommended_psu_w: 700
+
+# --- High ------------------------------------------------------------------
+
+- id: aurex-nova-80
+  sku: GPU-AUR-NOVA80
+  brand: Aurex
+  name: Aurex Nova 80
+  price_cents: 82990
+  default_stock: 8
+  tier: high
+  tags: [4k, 1440p, 16gb]
+  summary: A 322 mm, 16 GB card for 4K and high-refresh 1440p that takes three 8-pin PCIe connectors.
+  spec:
+    length_mm: 322
+    slot_width: 3.0
+    board_power_w: 330
+    power_connectors: { pcie_8pin: 3, twelve_v_2x6: 0 }
+    pcie_gen: 4
+    vram_gb: 16
+    recommended_psu_w: 800
+
+- id: halcyon-hx7080-triple
+  sku: GPU-HAL-HX7080-T
+  brand: Halcyon
+  name: Halcyon HX 7080 Triple
+  price_cents: 89990
+  default_stock: 6
+  tier: high
+  tags: [4k, ray-tracing, large]
+  summary: A long triple-fan flagship for 4K gaming that needs a 12V-2x6 connector and a roomy case.
+  spec:
+    length_mm: 336
+    slot_width: 3.5
+    board_power_w: 320
+    power_connectors: { pcie_8pin: 0, twelve_v_2x6: 1 }
+    pcie_gen: 5
+    vram_gb: 16
+    recommended_psu_w: 850
+
+- id: aurex-nova-90
+  sku: GPU-AUR-NOVA90
+  brand: Aurex
+  name: Aurex Nova 90
+  price_cents: 104990
+  default_stock: 5
+  tier: high
+  tags: [4k, 24gb, large]
+  summary: A 24 GB, 340 mm card for 4K gaming and GPU rendering, powered by three 8-pin PCIe connectors.
+  spec:
+    length_mm: 340
+    slot_width: 3.0
+    board_power_w: 355
+    power_connectors: { pcie_8pin: 3, twelve_v_2x6: 0 }
+    pcie_gen: 4
+    vram_gb: 24
+    recommended_psu_w: 850
+
+- id: halcyon-hx7090-triple
+  sku: GPU-HAL-HX7090-T
+  brand: Halcyon
+  name: Halcyon HX 7090 Triple
+  price_cents: 199990
+  default_stock: 3
+  tier: high
+  tags: [4k, ray-tracing, flagship, large]
+  summary: The 450 W, 32 GB flagship for 4K ray tracing and AI work; 357 mm long, it needs a big case and a 1000 W+ PSU.
+  spec:
+    length_mm: 357
+    slot_width: 3.5
+    board_power_w: 450
+    power_connectors: { pcie_8pin: 0, twelve_v_2x6: 1 }
+    pcie_gen: 5
+    vram_gb: 32
+    recommended_psu_w: 1000

@@ -1,0 +1,127 @@
+name = "techdepo-services"
+main = "build/index.js"
+compatibility_date = "2026-09-01"
+send_metrics = false
+workers_dev = true
+preview_urls = true
+
+[build]
+# `WORKER_BUILD=--dev wrangler dev …` builds unoptimized (much faster while iterating).
+command = "worker-build ${WORKER_BUILD:---release}"
+
+# Restate's request-response invocations run whole handler attempts; give them room.
+[limits]
+cpu_ms = 300000
+
+[[d1_databases]]
+binding = "DB"
+database_name = "techdepo"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+# Local defaults; `.dev.vars` (cargo run -p xtask -- dev-vars) overrides them. The deployed
+# environments are at the bottom.
+[vars]
+APP_BASE_URL = "http://localhost:8787"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support"
+EMAIL_FROM_NAME = "TechDepó Support"
+EMAIL_TRANSPORT = "mailpit"
+MAILPIT_URL = "http://localhost:8025"
+LLM_BACKEND = "mock"
+# Local only: accept unsigned requests from the local Restate server (no identity keys).
+AUTH_MODE = "dev"
+
+[observability]
+enabled = true
+
+# Local dev with real models (LLM_BACKEND=workers-ai in .env): scripts/dev.sh and devenv start the
+# services worker with `--env workers-ai` then. An AI binding is always remote under wrangler dev
+# and wrangler refuses to start without CLOUDFLARE_API_TOKEN (+ CLOUDFLARE_ACCOUNT_ID) once one is
+# declared, so it lives here and not at the top level: the default (LLM_BACKEND=mock) needs no
+# account. `[vars]` and D1 are not inherited by an env; keep them in step with the top level (the
+# same database_id, so it shares the local D1 under --persist-to).
+[env.workers-ai]
+name = "techdepo-services"
+
+[env.workers-ai.vars]
+APP_BASE_URL = "http://localhost:8787"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support"
+EMAIL_FROM_NAME = "TechDepó Support"
+EMAIL_TRANSPORT = "mailpit"
+MAILPIT_URL = "http://localhost:8025"
+LLM_BACKEND = "workers-ai"
+AUTH_MODE = "dev"
+
+[[env.workers-ai.d1_databases]]
+binding = "DB"
+database_name = "techdepo"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+[env.workers-ai.ai]
+binding = "AI"
+remote = true
+
+# Deployed environments (docs/deploy.md): `dev` (techdepo-dev-*) and `live` (techdepo-live-*),
+# deployed by scripts/deploy.sh with `--env <dev|live>` and the D1 placeholder replaced by the
+# environment's D1_DATABASE_ID. Restate Cloud (one environment per deployment) calls each version
+# on its own preview URL (workers.dev), registered by the deploy before the version is promoted;
+# no custom domain. `[vars]`, D1 and AI are not inherited from the top level. The model
+# variables (LLM_BACKEND, AI_AGENT_MODEL, AI_CLASSIFIER_MODEL, AI_FALLBACK_CLASSIFIER) and the
+# token budgets default in code (crates/llm); the deploy passes them as `--var`s when the
+# environment sets them. RESTATE_IDENTITY_KEYS, RESEND_API_KEY and CLERK_SECRET_KEY are secrets:
+# the worker refuses to start without the identity keys.
+[env.dev]
+name = "techdepo-dev-services"
+workers_dev = true
+preview_urls = true
+
+[env.dev.vars]
+APP_BASE_URL = "https://techdepo-dev-web.vibekoders.workers.dev"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support-dev"
+EMAIL_FROM_NAME = "TechDepó Support (dev)"
+EMAIL_TRANSPORT = "resend"
+LLM_BACKEND = "workers-ai"
+ORG_EXPIRY_DAYS = "7"
+AUTH_MODE = "clerk"
+
+[[env.dev.d1_databases]]
+binding = "DB"
+database_name = "techdepo-dev"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+[env.dev.ai]
+binding = "AI"
+
+[env.live]
+name = "techdepo-live-services"
+workers_dev = true
+preview_urls = true
+
+[env.live.vars]
+APP_BASE_URL = "https://techdepo.dev"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support"
+EMAIL_FROM_NAME = "TechDepó Support"
+EMAIL_TRANSPORT = "resend"
+LLM_BACKEND = "workers-ai"
+# Demo orgs (and all their data) are deleted this many days after provisioning; a returning
+# member gets a fresh shop. "0" turns it off.
+ORG_EXPIRY_DAYS = "30"
+AUTH_MODE = "clerk"
+
+[[env.live.d1_databases]]
+binding = "DB"
+database_name = "techdepo-live"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+# Workers AI for LLM_BACKEND=workers-ai (agents through allama-cloudflare-worker, Clef for
+# classification). Local development runs LLM_BACKEND=mock and needs no binding (and no account),
+# or `--env workers-ai` (above) for real models.
+[env.live.ai]
+binding = "AI"

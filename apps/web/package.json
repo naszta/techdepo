@@ -1,0 +1,16 @@
+{
+  "name": "techdepo-web",
+  "private": true,
+  "description": "Tailwind v4 + daisyUI 5 toolchain for the TechDepó SPA (CSS only; the app is Rust).",
+  "scripts": {
+    "css": "tailwindcss -i ./tailwind.css -o ./public/tailwind.css --minify",
+    "css:watch": "tailwindcss -i ./tailwind.css -o ./public/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@fontsource-variable/geist": "^5",
+    "@fontsource-variable/geist-mono": "^5",
+    "@tailwindcss/cli": "^4",
+    "daisyui": "^5",
+    "tailwindcss": "^4"
+  }
+}

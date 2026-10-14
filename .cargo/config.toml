@@ -1,0 +1,4 @@
+# The dev machine has 4 CPUs, ~8 GB RAM and no swap. Parallel rustc processes (especially
+# LTO release builds of the workers and the SPA) can exhaust memory and freeze it.
+[build]
+jobs = 2

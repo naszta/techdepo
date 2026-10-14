@@ -1,0 +1,20 @@
+ignore = [".devenv", "target"]
+
+# fmt (rustfmt staleness), clippy and the tests, per target (host, wasm32) and package; the targets
+# come from [[workspace.metadata.dagger.modules]] in Cargo.toml and the members' own entries.
+[modules.rust]
+source = "github.com/sagikazarmark/daggerverse-beta/rust"
+# `check` and `build` are covered by clippy, the tests and the Workers' release builds (ci),
+# advisories by cargo deny (ci/deny), `fix/clippy` by clippy itself; no rustdoc gate.
+check.skip = [
+  "audit",
+  "fix/clippy",
+  "targets/packages/build",
+  "targets/packages/check",
+  "targets/packages/doc",
+]
+
+# cargo deny, catalog validation, release builds of the Workers and the SPA, and the deploy
+# (ci/main.dang).
+[modules.ci]
+source = "ci"

@@ -1,0 +1,82 @@
+name = "techdepo-mail-in"
+main = "build/index.js"
+compatibility_date = "2026-09-01"
+send_metrics = false
+workers_dev = true
+preview_urls = true
+
+[build]
+# `WORKER_BUILD=--dev wrangler dev …` builds unoptimized (much faster while iterating).
+command = "worker-build ${WORKER_BUILD:---release}"
+
+[dev]
+port = 8789
+
+[[d1_databases]]
+binding = "DB"
+database_name = "techdepo"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+# Local defaults; `.dev.vars` (cargo run -p xtask -- dev-vars) overrides them. The deployed
+# environments are at the bottom.
+# Test locally with wrangler's email trigger:
+#   curl -X POST 'localhost:8789/cdn-cgi/handler/email?from=a@example.com&to=support+<org>@techdepo.dev' --data-binary @mail.eml
+[vars]
+AUTH_MODE = "dev"
+# The local email trigger adds no Authentication-Results: trust the From address (dev only;
+# deployed environments require our MTA's dmarc=pass, INBOUND_AUTHSERV_ID defaults to mx.cloudflare.net).
+INBOUND_SENDER_AUTH = "trust-from"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support"
+RESTATE_INGRESS_URL = "http://localhost:8080"
+
+[observability]
+enabled = true
+
+# Deployed environments (docs/deploy.md), deployed by scripts/deploy.sh with `--env <dev|live>`
+# and the D1 placeholder replaced by the environment's D1_DATABASE_ID. Cloudflare Email Routing on
+# techdepo.dev (subaddressing on) sends each environment's support address to its worker:
+# `support@` (and so `support+<org>@`) to techdepo-live-mail-in, `support-dev@` to
+# techdepo-dev-mail-in. Those are routing rules in the dashboard, not here. No HTTP routes.
+# Not here: RESTATE_INGRESS_URL comes from the deploy (`--var`); CLERK_SECRET_KEY and
+# RESTATE_API_KEY are secrets. INBOUND_SENDER_AUTH = "dmarc" (the default outside dev, stated):
+# only mail our MTA marked dmarc=pass for the From domain.
+[env.dev]
+name = "techdepo-dev-mail-in"
+workers_dev = false
+preview_urls = false
+
+[env.dev.vars]
+AUTH_MODE = "clerk"
+INBOUND_SENDER_AUTH = "dmarc"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support-dev"
+
+[[env.dev.d1_databases]]
+binding = "DB"
+database_name = "techdepo-dev"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+[env.live]
+name = "techdepo-live-mail-in"
+workers_dev = false
+preview_urls = false
+
+[env.live.vars]
+AUTH_MODE = "clerk"
+INBOUND_SENDER_AUTH = "dmarc"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support"
+
+[[env.live.d1_databases]]
+binding = "DB"
+database_name = "techdepo-live"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+# Membership cache for the Clerk directory (optional; without it the cache is per isolate).
+# [[env.live.kv_namespaces]]
+# binding = "MEMBERS_CACHE"
+# id = "<kv namespace id>"

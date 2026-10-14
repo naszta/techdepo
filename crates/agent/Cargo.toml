@@ -1,0 +1,23 @@
+[package]
+name = "techdepo-agent"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+techdepo-domain.workspace = true
+techdepo-ports.workspace = true
+techdepo-api-types.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+schemars.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+# Live wall clock for trace timestamps and latencies (inside journaled steps); `std`'s panics on wasm32.
+web-time.workspace = true
+
+[dev-dependencies]
+techdepo-ports = { workspace = true, features = ["testing"] }
+futures.workspace = true

@@ -1,0 +1,177 @@
+# CPU coolers. Schema: data/catalog/README.md
+#
+# Tiers by price: budget < €50, mid €50–€119.99, high ≥ €120.
+# `ram_clearance_mm`: tallest memory under the fan in its standard position;
+# omitted for coolers that do not overhang the memory slots.
+
+# --- Air -------------------------------------------------------------------
+
+- id: coldmark-classic-92
+  sku: COOL-CLD-CLASSIC92
+  brand: Coldmark
+  name: Coldmark Classic 92
+  price_cents: 2490
+  default_stock: 30
+  tier: budget
+  tags: [air, budget, amd-only]
+  summary: A compact 92 mm tower cooler, 135 mm tall and rated for 120 W, with mounts for AMD AM4 and AM5 only.
+  spec:
+    sockets: [am4, am5]
+    kind: { type: air, height_mm: 135 }
+    tdp_rating_w: 120
+
+- id: breeze-frost-120
+  sku: COOL-BRZ-FROST120
+  brand: Breeze
+  name: Breeze Frost 120
+  price_cents: 3490
+  default_stock: 40
+  tier: budget
+  tags: [air, quiet, tower]
+  summary: A quiet single-tower air cooler with mounts for every current socket, 155 mm tall.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: air, height_mm: 155, ram_clearance_mm: 42 }
+    tdp_rating_w: 180
+
+- id: breeze-whisper-lp
+  sku: COOL-BRZ-WHISPER-LP
+  brand: Breeze
+  name: Breeze Whisper LP
+  price_cents: 3990
+  default_stock: 25
+  tier: budget
+  tags: [air, low-profile, small-form-factor]
+  summary: A 47 mm low-profile cooler for slim Mini-ITX cases, rated for CPUs up to 95 W.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: air, height_mm: 47 }
+    tdp_rating_w: 95
+
+- id: coldmark-slim-67
+  sku: COOL-CLD-SLIM67
+  brand: Coldmark
+  name: Coldmark Slim 67
+  price_cents: 5490
+  default_stock: 18
+  tier: mid
+  tags: [air, low-profile, small-form-factor]
+  summary: A 67 mm low-profile cooler with a 120 mm fan that handles CPUs up to 130 W in compact cases.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: air, height_mm: 67, ram_clearance_mm: 42 }
+    tdp_rating_w: 130
+
+- id: breeze-frost-140-duo
+  sku: COOL-BRZ-FROST140-DUO
+  brand: Breeze
+  name: Breeze Frost 140 Duo
+  price_cents: 6490
+  default_stock: 20
+  tier: mid
+  tags: [air, dual-tower, quiet]
+  summary: A 158 mm dual-tower air cooler with two 140 mm fans, rated for 250 W and quiet under load.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: air, height_mm: 158, ram_clearance_mm: 40 }
+    tdp_rating_w: 250
+
+- id: coldmark-peak-duo
+  sku: COOL-CLD-PEAK-DUO
+  brand: Coldmark
+  name: Coldmark Peak Duo
+  price_cents: 10990
+  default_stock: 10
+  tier: mid
+  tags: [air, dual-tower, high-performance]
+  summary: A 168 mm dual-tower air cooler rated for 270 W that rivals 280 mm AIOs; needs a case with 168 mm clearance.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: air, height_mm: 168, ram_clearance_mm: 36 }
+    tdp_rating_w: 270
+
+# --- All-in-one liquid -----------------------------------------------------
+
+- id: breeze-glacier-120
+  sku: COOL-BRZ-GLACIER120
+  brand: Breeze
+  name: Breeze Glacier 120
+  price_cents: 6990
+  default_stock: 15
+  tier: mid
+  tags: [aio, liquid, compact]
+  summary: A 120 mm all-in-one liquid cooler for compact cases with a single 120 mm fan mount, rated for 180 W.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: aio, radiator_mm: 120 }
+    tdp_rating_w: 180
+
+- id: breeze-glacier-240
+  sku: COOL-BRZ-GLACIER240
+  brand: Breeze
+  name: Breeze Glacier 240
+  price_cents: 9990
+  default_stock: 15
+  tier: mid
+  tags: [aio, liquid, rgb]
+  summary: A 240 mm all-in-one liquid cooler for hot CPUs and cases without tall-cooler clearance.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: aio, radiator_mm: 240 }
+    tdp_rating_w: 250
+
+- id: coldmark-hydro-280
+  sku: COOL-CLD-HYDRO280
+  brand: Coldmark
+  name: Coldmark Hydro 280
+  price_cents: 11490
+  default_stock: 12
+  tier: mid
+  tags: [aio, liquid, quiet]
+  summary: A 280 mm all-in-one liquid cooler with two slow-spinning 140 mm fans, rated for 280 W.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: aio, radiator_mm: 280 }
+    tdp_rating_w: 280
+
+- id: breeze-glacier-360
+  sku: COOL-BRZ-GLACIER360
+  brand: Breeze
+  name: Breeze Glacier 360
+  price_cents: 13990
+  default_stock: 10
+  tier: high
+  tags: [aio, liquid, rgb]
+  summary: A 360 mm all-in-one liquid cooler with three RGB fans, rated for 300 W; needs a 360 mm radiator mount.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: aio, radiator_mm: 360 }
+    tdp_rating_w: 300
+
+- id: coldmark-hydro-360
+  sku: COOL-CLD-HYDRO360
+  brand: Coldmark
+  name: Coldmark Hydro 360
+  price_cents: 16990
+  default_stock: 8
+  tier: high
+  tags: [aio, liquid, quiet]
+  summary: A quiet 360 mm all-in-one liquid cooler with a thick radiator, rated for 320 W.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: aio, radiator_mm: 360 }
+    tdp_rating_w: 320
+
+- id: coldmark-hydro-420
+  sku: COOL-CLD-HYDRO420
+  brand: Coldmark
+  name: Coldmark Hydro 420
+  price_cents: 18990
+  default_stock: 6
+  tier: high
+  tags: [aio, liquid, workstation]
+  summary: A 420 mm all-in-one liquid cooler with three 140 mm fans, rated for 350 W; fits only cases with a 420 mm mount.
+  spec:
+    sockets: [am4, am5, lga1700, lga1851]
+    kind: { type: aio, radiator_mm: 420 }
+    tdp_rating_w: 350

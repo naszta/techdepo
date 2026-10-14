@@ -1,0 +1,34 @@
+[package]
+name = "techdepo-web"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+techdepo-api-types.workspace = true
+techdepo-catalog.workspace = true
+techdepo-compat.workspace = true
+techdepo-domain.workspace = true
+dioxus = { workspace = true, features = ["launch", "web", "router", "html", "hooks", "macro", "signals", "asset", "document", "logger"] }
+dioxus-clerk.workspace = true
+dioform = { workspace = true, features = ["dioxus-field"] }
+gloo-net.workspace = true
+gloo-timers = { version = "0.4", features = ["futures"] }
+serde.workspace = true
+serde_json.workspace = true
+time.workspace = true
+wasm-bindgen.workspace = true
+wasm-bindgen-futures.workspace = true
+web-sys = { workspace = true, features = ["Window", "Document", "Element", "HtmlElement", "Storage", "MediaQueryList", "Crypto", "Location", "History"] }
+js-sys.workspace = true
+
+# Installed by `dx components add` from dioxus-daisyui-components (see src/components/README.md).
+dioxus-field = { version = "0.8.0", default-features = false }
+dioxus-primitives = { git = "https://github.com/DioxusLabs/components", rev = "bf007c15d0cf4d04d3181cc46cf12325aa773955", version = "0.0.1", default-features = false, features = ["router", "web"] }
+
+# The SPA runs in the browser only.
+[[package.metadata.dagger.modules]]
+name = "rust"
+targets = ["wasm32-unknown-unknown"]

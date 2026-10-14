@@ -1,0 +1,38 @@
+[package]
+name = "techdepo-services"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+techdepo-domain.workspace = true
+techdepo-catalog.workspace = true
+techdepo-compat.workspace = true
+techdepo-api-types.workspace = true
+techdepo-ports.workspace = true
+techdepo-db.workspace = true
+techdepo-agent.workspace = true
+# The LLM usage ledger and daily budgets (`llm_usage`) the agents enforce.
+techdepo-llm.workspace = true
+restate-sdk.workspace = true
+restate-ext.workspace = true
+restate-config.workspace = true
+async-trait.workspace = true
+email-message.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+# Agent tool arguments (their JSON Schema is sent to the model).
+schemars.workspace = true
+thiserror.workspace = true
+askama.workspace = true
+futures.workspace = true
+regex-lite.workspace = true
+time.workspace = true
+# A live (not journaled) clock inside `ctx.run`, for simulated outages; `std`'s clock panics on wasm32.
+web-time.workspace = true
+
+[dev-dependencies]
+techdepo-db = { workspace = true, features = ["sqlite"] }
+techdepo-ports = { workspace = true, features = ["testing"] }

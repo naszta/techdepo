@@ -1,0 +1,292 @@
+# CPUs. Schema: data/catalog/README.md
+#
+# Platforms: AM4 (granite, DDR4), AM5 (quartz, then obsidian; DDR5),
+# LGA1700 (falcon, then harrier; DDR4 or DDR5 boards), LGA1851 (osprey, DDR5).
+# Tiers by price: budget < €200, mid €200–€399.99, high ≥ €400.
+
+# --- AM4 -------------------------------------------------------------------
+
+- id: voltaris-v5-5600
+  sku: CPU-VOL-5600
+  brand: Voltaris
+  name: Voltaris V5 5600
+  price_cents: 11990
+  default_stock: 40
+  tier: budget
+  tags: [budget, am4, cooler-included]
+  summary: A proven six-core AM4 chip with a cooler in the box, ideal for affordable DDR4 builds.
+  spec:
+    socket: am4
+    family: granite
+    cores: 6
+    threads: 12
+    base_clock_mhz: 3500
+    boost_clock_mhz: 4400
+    tdp_w: 65
+    peak_power_w: 76
+    memory:
+      - { memory_type: ddr4, max_speed_mts: 3200, max_speed_2dpc_mts: 2667 }
+    integrated_graphics: false
+    bundled_cooler: true
+
+- id: voltaris-v5-5600g
+  sku: CPU-VOL-5600G
+  brand: Voltaris
+  name: Voltaris V5 5600G
+  price_cents: 13490
+  default_stock: 30
+  tier: budget
+  tags: [budget, am4, integrated-graphics, cooler-included]
+  summary: Six AM4 cores with integrated graphics and a cooler in the box, for a complete PC without a graphics card.
+  spec:
+    socket: am4
+    family: granite
+    cores: 6
+    threads: 12
+    base_clock_mhz: 3900
+    boost_clock_mhz: 4400
+    tdp_w: 65
+    peak_power_w: 76
+    memory:
+      - { memory_type: ddr4, max_speed_mts: 3200, max_speed_2dpc_mts: 2667 }
+    integrated_graphics: true
+    bundled_cooler: true
+
+- id: voltaris-v7-5800
+  sku: CPU-VOL-5800
+  brand: Voltaris
+  name: Voltaris V7 5800
+  price_cents: 21490
+  default_stock: 20
+  tier: mid
+  tags: [am4, gaming, upgrade]
+  summary: Eight Granite cores, the top upgrade for an existing AM4 system; needs a graphics card and a cooler.
+  spec:
+    socket: am4
+    family: granite
+    cores: 8
+    threads: 16
+    base_clock_mhz: 3800
+    boost_clock_mhz: 4700
+    tdp_w: 105
+    peak_power_w: 142
+    memory:
+      - { memory_type: ddr4, max_speed_mts: 3200, max_speed_2dpc_mts: 2667 }
+    integrated_graphics: false
+    bundled_cooler: false
+
+# --- AM5 -------------------------------------------------------------------
+
+- id: voltaris-v5-7600
+  sku: CPU-VOL-7600
+  brand: Voltaris
+  name: Voltaris V5 7600
+  price_cents: 18990
+  default_stock: 35
+  tier: budget
+  tags: [am5, budget, integrated-graphics, cooler-included]
+  summary: The entry ticket to AM5, with six Quartz cores, basic integrated graphics and a stock cooler in the box.
+  spec:
+    socket: am5
+    family: quartz
+    cores: 6
+    threads: 12
+    base_clock_mhz: 3800
+    boost_clock_mhz: 5100
+    tdp_w: 65
+    peak_power_w: 88
+    memory:
+      - { memory_type: ddr5, max_speed_mts: 5200, max_speed_2dpc_mts: 3600 }
+    integrated_graphics: true
+    bundled_cooler: true
+
+- id: voltaris-v5-8600
+  sku: CPU-VOL-8600
+  brand: Voltaris
+  name: Voltaris V5 8600
+  price_cents: 22990
+  default_stock: 25
+  tier: mid
+  tags: [gaming, am5, efficient]
+  summary: Six fast Obsidian cores on AM5 with integrated graphics; the sweet spot for a gaming build.
+  spec:
+    socket: am5
+    family: obsidian
+    cores: 6
+    threads: 12
+    base_clock_mhz: 3800
+    boost_clock_mhz: 5400
+    tdp_w: 65
+    peak_power_w: 88
+    memory:
+      - { memory_type: ddr5, max_speed_mts: 5600, max_speed_2dpc_mts: 3600 }
+    integrated_graphics: true
+    bundled_cooler: false
+
+- id: voltaris-v7-8700
+  sku: CPU-VOL-8700
+  brand: Voltaris
+  name: Voltaris V7 8700
+  price_cents: 33990
+  default_stock: 20
+  tier: mid
+  tags: [am5, gaming, streaming]
+  summary: Eight Obsidian cores on AM5 for gaming while streaming or editing; pair it with a cooler rated for 120 W.
+  spec:
+    socket: am5
+    family: obsidian
+    cores: 8
+    threads: 16
+    base_clock_mhz: 3800
+    boost_clock_mhz: 5500
+    tdp_w: 120
+    peak_power_w: 162
+    memory:
+      - { memory_type: ddr5, max_speed_mts: 5600, max_speed_2dpc_mts: 3600 }
+    integrated_graphics: true
+    bundled_cooler: false
+
+- id: voltaris-v9-8950
+  sku: CPU-VOL-8950
+  brand: Voltaris
+  name: Voltaris V9 8950
+  price_cents: 62990
+  default_stock: 8
+  tier: high
+  tags: [am5, workstation, flagship]
+  summary: Sixteen Obsidian cores for rendering, compiling and heavy multitasking; needs a 170 W-class cooler.
+  spec:
+    socket: am5
+    family: obsidian
+    cores: 16
+    threads: 32
+    base_clock_mhz: 4300
+    boost_clock_mhz: 5700
+    tdp_w: 170
+    peak_power_w: 230
+    memory:
+      - { memory_type: ddr5, max_speed_mts: 5600, max_speed_2dpc_mts: 3600 }
+    integrated_graphics: true
+    bundled_cooler: false
+
+# --- LGA1700 ---------------------------------------------------------------
+
+- id: helion-h3-1210
+  sku: CPU-HEL-1210
+  brand: Helion
+  name: Helion H3 1210
+  price_cents: 11490
+  default_stock: 30
+  tier: budget
+  tags: [lga1700, budget, office, integrated-graphics, cooler-included]
+  summary: Four Falcon cores with integrated graphics and a stock cooler for office PCs and starter builds on LGA1700.
+  spec:
+    socket: lga1700
+    family: falcon
+    cores: 4
+    threads: 8
+    base_clock_mhz: 3300
+    boost_clock_mhz: 4300
+    tdp_w: 60
+    peak_power_w: 89
+    memory:
+      - { memory_type: ddr5, max_speed_mts: 4800, max_speed_2dpc_mts: 3600 }
+      - { memory_type: ddr4, max_speed_mts: 3200, max_speed_2dpc_mts: 2933 }
+    integrated_graphics: true
+    bundled_cooler: true
+
+- id: helion-h5-1440f
+  sku: CPU-HEL-1440F
+  brand: Helion
+  name: Helion H5 1440F
+  price_cents: 20990
+  default_stock: 25
+  tier: mid
+  tags: [lga1700, gaming, cooler-included]
+  summary: Ten Harrier cores for LGA1700 gaming builds with a cooler in the box; the F means no integrated graphics.
+  spec:
+    socket: lga1700
+    family: harrier
+    cores: 10
+    threads: 16
+    base_clock_mhz: 2500
+    boost_clock_mhz: 4700
+    tdp_w: 65
+    peak_power_w: 148
+    memory:
+      - { memory_type: ddr5, max_speed_mts: 5600, max_speed_2dpc_mts: 3600 }
+      - { memory_type: ddr4, max_speed_mts: 3200, max_speed_2dpc_mts: 2933 }
+    integrated_graphics: false
+    bundled_cooler: true
+
+- id: helion-h7-1470
+  sku: CPU-HEL-1470
+  brand: Helion
+  name: Helion H7 1470
+  price_cents: 40990
+  default_stock: 12
+  tier: high
+  tags: [lga1700, gaming, workstation]
+  summary: Twenty Harrier cores (8 performance, 12 efficiency) for high-end LGA1700 builds; draws up to 253 W.
+  spec:
+    socket: lga1700
+    family: harrier
+    cores: 20
+    threads: 28
+    base_clock_mhz: 3400
+    boost_clock_mhz: 5500
+    tdp_w: 125
+    peak_power_w: 253
+    memory:
+      - { memory_type: ddr5, max_speed_mts: 5600, max_speed_2dpc_mts: 3600 }
+      - { memory_type: ddr4, max_speed_mts: 3200, max_speed_2dpc_mts: 2933 }
+    integrated_graphics: true
+    bundled_cooler: false
+
+# --- LGA1851 ---------------------------------------------------------------
+
+- id: helion-h5-2250
+  sku: CPU-HEL-2250
+  brand: Helion
+  name: Helion H5 2250
+  price_cents: 31990
+  default_stock: 18
+  tier: mid
+  tags: [lga1851, gaming, efficient]
+  summary: Fourteen Osprey cores on LGA1851 with DDR5-6400 support and integrated graphics.
+  spec:
+    socket: lga1851
+    family: osprey
+    cores: 14
+    threads: 14
+    base_clock_mhz: 4200
+    boost_clock_mhz: 5200
+    tdp_w: 125
+    peak_power_w: 159
+    memory:
+      - { memory_type: ddr5, max_speed_mts: 6400, max_speed_2dpc_mts: 4400 }
+    integrated_graphics: true
+    bundled_cooler: false
+
+- id: helion-h9-2290
+  sku: CPU-HEL-2290
+  brand: Helion
+  name: Helion H9 2290
+  price_cents: 59990
+  default_stock: 8
+  tier: high
+  tags: [lga1851, workstation, flagship]
+  summary: Twenty-four Osprey cores for heavy creative and development work on LGA1851; draws up to 250 W.
+  spec:
+    socket: lga1851
+    family: osprey
+    cores: 24
+    threads: 24
+    base_clock_mhz: 3700
+    boost_clock_mhz: 5700
+    tdp_w: 125
+    peak_power_w: 250
+    memory:
+      - { memory_type: ddr5, max_speed_mts: 6400, max_speed_2dpc_mts: 4400 }
+    integrated_graphics: true
+    bundled_cooler: false

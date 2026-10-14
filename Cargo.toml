@@ -1,0 +1,153 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/domain",
+    "crates/catalog",
+    "crates/compat",
+    "crates/api-types",
+    "crates/ports",
+    "crates/db",
+    "crates/llm",
+    "crates/agent",
+    "crates/services",
+    "apps/web",
+    "apps/web-worker",
+    "apps/mail-in",
+    "apps/services",
+    "xtask",
+]
+default-members = [
+    "crates/domain",
+    "crates/catalog",
+    "crates/compat",
+    "crates/api-types",
+    "crates/agent",
+    "xtask",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[workspace.dependencies]
+# Internal
+techdepo-domain = { path = "crates/domain" }
+techdepo-catalog = { path = "crates/catalog" }
+techdepo-compat = { path = "crates/compat" }
+techdepo-api-types = { path = "crates/api-types" }
+techdepo-ports = { path = "crates/ports" }
+techdepo-db = { path = "crates/db" }
+techdepo-llm = { path = "crates/llm" }
+techdepo-agent = { path = "crates/agent" }
+techdepo-services = { path = "crates/services" }
+
+# Restate
+restate-sdk = { version = "0.12", default-features = false, features = ["rand", "uuid", "rust_crypto"] }
+restate-config = "0.3"
+restate-ext = { version = "0.3", default-features = false }
+
+# Email
+email-message = { version = "0.10", features = ["serde"] }
+# Inbound MIME parsing in mail-in: lenient with real-world mail (already in the graph through
+# email-message).
+mail-parser = "0.11"
+
+# LLM
+# allama: provider-agnostic chat, tools, structured output and decision models (Clef).
+allama = { version = "0.2", default-features = false, features = ["schema", "extract", "mock"] }
+# HTTP providers inside a Worker (crates/llm): requests go through the Workers Fetch API
+# (`allama-http`'s transport seam), so no reqwest. Keys are Worker secrets.
+allama-http = { version = "0.2", default-features = false }
+allama-anthropic = { version = "0.2", default-features = false }
+allama-openai = { version = "0.2", default-features = false }
+allama-gemini = { version = "0.2", default-features = false }
+# Workers AI through the AI binding (chat with tools + Clef decisions); wasm only.
+allama-cloudflare-worker = "0.2"
+# Outside a Worker (xtask evals): providers from a model address (`anthropic:claude-haiku-4-5`),
+# each behind a feature of xtask. rustls-ring avoids cmake/aws-lc.
+allama-providers = { version = "0.2", default-features = false, features = ["rustls-ring"] }
+
+# Cloudflare
+# Pinned: worker >= 0.8.6 needs wasm-bindgen >= 0.2.128, but dx 0.7.10 embeds 0.2.126.
+worker = { version = "=0.8.5", features = ["d1", "http", "axum"] }
+worker-macros = { version = "=0.8.5", features = ["http"] }
+
+# Web
+dioxus = { version = "0.7.10", default-features = false }
+dioxus-clerk = "0.6"
+dioform = "0.9"
+axum = { version = "0.8", default-features = false, features = ["json", "query"] }
+tower-service = "0.3"
+http = "1"
+http-body-util = "0.1"
+bytes = "1"
+# Keep the generated wasm ABI aligned with the version embedded in dx 0.7.10.
+wasm-bindgen = "=0.2.126"
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+web-sys = "0.3"
+gloo-net = { version = "0.6", default-features = false, features = ["http", "json"] }
+send_wrapper = { version = "0.6", features = ["futures"] }
+
+# General
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+schemars = "1.2"
+thiserror = "2"
+time = { version = "0.3", features = ["serde", "macros", "formatting", "parsing", "wasm-bindgen"] }
+askama = "0.16"
+futures = "0.3"
+async-trait = "0.1"
+tracing = "0.1"
+regex-lite = "0.1"
+insta = { version = "1", features = ["yaml"] }
+# Native SQLite backend for tests (D1 is SQLite; same migrations).
+rusqlite = { version = "0.37", features = ["bundled"] }
+web-time = "1"
+# Async runtime for native tools only (xtask evals: allama's reqwest transport needs one).
+tokio = { version = "1", default-features = false, features = ["rt"] }
+# Attachments in the Mailpit / Resend HTTP payloads (apps/services).
+base64 = "0.22"
+
+# The retired Dagger CI (dagger.toml; CI is .github/workflows + justfile now): its rust module checks
+# every member for the host and wasm32, except the members
+# that restrict themselves ([[package.metadata.dagger.modules]]).
+[[workspace.metadata.dagger.modules]]
+name = "rust"
+targets = ["wasm32-unknown-unknown"]
+
+[patch.crates-io]
+# wasm32 support for Cloudflare Workers (upstream PR restatedev/sdk-rust#128).
+restate-sdk = { git = "https://github.com/sagikazarmark/restate-sdk-rust", branch = "wasm" }
+
+[profile.release]
+opt-level = "z"
+debug = false
+lto = true
+codegen-units = 1
+panic = "abort"
+# wasm-bindgen needs the target_features section when generating Worker catch wrappers.
+strip = false
+incremental = false
+
+# Line tables only: full DWARF roughly doubles rustc and linker memory, and this machine has
+# ~8 GB and no swap. Backtraces keep file:line.
+[profile.dev]
+debug = "line-tables-only"
+
+[profile.test]
+debug = "line-tables-only"
+
+[profile.dev.package."*"]
+opt-level = 1
+
+# dx's profile for the SPA (`dx build --release --platform web`, scripts/build-web.sh). dx strips the
+# wasm itself after extracting assets, from this setting; with release's `strip = false`, std's
+# DWARF reaches wasm-opt (binaryen 132), which aborts on it and leaves the wasm unoptimized.
+[profile.wasm-release]
+inherits = "release"
+strip = "debuginfo"

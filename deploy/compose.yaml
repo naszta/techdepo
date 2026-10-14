@@ -1,0 +1,27 @@
+# Local infrastructure for TechDepó. Workers run via `wrangler dev` on the host.
+name: techdepo
+
+services:
+  restate:
+    image: docker.restate.dev/restatedev/restate:1.7
+    ports:
+      - "8080:8080" # ingress
+      - "9070:9070" # admin API + UI
+    environment:
+      RESTATE_LOG_FILTER: "restate=info"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - restate-data:/restate-data
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # UI + HTTP API (incl. POST /api/v1/send)
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "1"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+
+volumes:
+  restate-data:

@@ -1,0 +1,38 @@
+[package]
+name = "techdepo-llm"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+techdepo-domain.workspace = true
+techdepo-ports.workspace = true
+techdepo-agent.workspace = true
+allama.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+# Same major as allama's re-export (one schemars in the graph): the fallback classifier's schema.
+schemars.workspace = true
+thiserror.workspace = true
+async-trait.workspace = true
+regex-lite.workspace = true
+time.workspace = true
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+allama-cloudflare-worker.workspace = true
+allama-http.workspace = true
+allama-anthropic.workspace = true
+allama-openai.workspace = true
+allama-gemini.workspace = true
+# Not the workspace entry: that one turns on reqwest (xtask's transport).
+allama-openai-compat = { version = "0.2", default-features = false }
+worker.workspace = true
+send_wrapper.workspace = true
+futures.workspace = true
+
+[dev-dependencies]
+techdepo-api-types.workspace = true
+techdepo-db = { workspace = true, features = ["sqlite"] }
+futures.workspace = true

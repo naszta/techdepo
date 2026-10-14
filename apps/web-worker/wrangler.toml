@@ -1,0 +1,105 @@
+name = "techdepo-web"
+main = "build/index.js"
+compatibility_date = "2026-09-01"
+send_metrics = false
+workers_dev = true
+preview_urls = true
+
+[build]
+# `WORKER_BUILD=--dev wrangler dev …` builds unoptimized (much faster while iterating).
+command = "worker-build ${WORKER_BUILD:---release}"
+
+# The SPA (scripts/build-web.sh writes it to public/). Files are served without the worker;
+# /api/* always runs it. A path matching no file also reaches the worker (no
+# not_found_handling): extension-less paths get index.html, missing files a 404 (src/spa.rs).
+# The built-in "single-page-application" mode would answer /assets/missing.js with index.html.
+[assets]
+directory = "public"
+binding = "ASSETS"
+run_worker_first = ["/api", "/api/*"]
+
+[dev]
+port = 8787
+
+[[d1_databases]]
+binding = "DB"
+database_name = "techdepo"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+# The per-user burst limit on mutating /api routes (src/throttle.rs): 60 per 60 s (the period
+# is 10 or 60), counted per Cloudflare location. `namespace_id` is any account-unique integer.
+[[ratelimits]]
+name = "MUTATION_LIMITER"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }
+
+# Local defaults; `.dev.vars` (cargo run -p xtask -- dev-vars) overrides them. The deployed
+# environments are at the bottom.
+[vars]
+AUTH_MODE = "dev"
+APP_BASE_URL = "http://localhost:8787"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support"
+RESTATE_INGRESS_URL = "http://localhost:8080"
+RESTATE_ADMIN_URL = "http://localhost:9070"
+LLM_BACKEND = "mock"
+
+[observability]
+enabled = true
+
+# Deployed environments (docs/deploy.md), deployed by scripts/deploy.sh with `--env <dev|live>`
+# and the D1 placeholder replaced by the environment's D1_DATABASE_ID. Not here, per environment:
+# RESTATE_INGRESS_URL, CLERK_PUBLISHABLE_KEY, CLERK_AUTHORIZED_PARTIES and LLM_BACKEND come from
+# the deploy (`--var`); CLERK_SECRET_KEY and RESTATE_API_KEY are secrets. Rate limit
+# `namespace_id`s are account-unique, so each environment has its own.
+#
+# dev: on workers.dev (https://techdepo-dev-web.vibekoders.workers.dev).
+[env.dev]
+name = "techdepo-dev-web"
+workers_dev = true
+preview_urls = false
+
+[env.dev.vars]
+AUTH_MODE = "clerk"
+APP_BASE_URL = "https://techdepo-dev-web.vibekoders.workers.dev"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support-dev"
+LLM_BACKEND = "workers-ai"
+
+[[env.dev.d1_databases]]
+binding = "DB"
+database_name = "techdepo-dev"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+[[env.dev.ratelimits]]
+name = "MUTATION_LIMITER"
+namespace_id = "1101"
+simple = { limit = 60, period = 60 }
+
+# live: the apex as a Custom Domain (wrangler creates the DNS record; it coexists with Email
+# Routing's MX records), not on workers.dev.
+[env.live]
+name = "techdepo-live-web"
+workers_dev = false
+preview_urls = false
+routes = [{ pattern = "techdepo.dev", custom_domain = true }]
+
+[env.live.vars]
+AUTH_MODE = "clerk"
+APP_BASE_URL = "https://techdepo.dev"
+EMAIL_DOMAIN = "techdepo.dev"
+SUPPORT_LOCAL_PART = "support"
+LLM_BACKEND = "workers-ai"
+
+[[env.live.d1_databases]]
+binding = "DB"
+database_name = "techdepo-live"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../../migrations"
+
+[[env.live.ratelimits]]
+name = "MUTATION_LIMITER"
+namespace_id = "1201"
+simple = { limit = 60, period = 60 }

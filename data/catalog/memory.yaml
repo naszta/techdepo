@@ -1,0 +1,245 @@
+# Memory kits. Schema: data/catalog/README.md
+#
+# Tiers by price: budget < €90, mid €90–€179.99, high ≥ €180.
+
+# --- DDR4 (AM4, DDR4 boards on LGA1700) ------------------------------------
+
+- id: nimbus-ddr4-3200-16
+  sku: RAM-NIM-D4-3200-2X8
+  brand: Nimbus
+  name: Nimbus Cirrus DDR4-3200 16 GB (2x8 GB)
+  price_cents: 3990
+  default_stock: 50
+  tier: budget
+  tags: [ddr4, budget]
+  summary: An affordable 16 GB DDR4 kit at 3200 MT/s for AM4 and older Intel builds.
+  spec:
+    memory_type: ddr4
+    modules: 2
+    module_gb: 8
+    speed_mts: 3200
+    cas_latency: 16
+    height_mm: 42
+
+- id: nimbus-ddr4-3200-32
+  sku: RAM-NIM-D4-3200-2X16
+  brand: Nimbus
+  name: Nimbus Cirrus DDR4-3200 32 GB (2x16 GB)
+  price_cents: 6490
+  default_stock: 40
+  tier: budget
+  tags: [ddr4, budget, gaming]
+  summary: A 32 GB dual-channel DDR4 kit at 3200 MT/s, the comfortable amount for gaming and multitasking on DDR4.
+  spec:
+    memory_type: ddr4
+    modules: 2
+    module_gb: 16
+    speed_mts: 3200
+    cas_latency: 16
+    height_mm: 42
+
+- id: lumen-ddr4-3600-32
+  sku: RAM-LUM-D4-3600-2X16
+  brand: Lumen
+  name: Lumen Pulse DDR4-3600 32 GB (2x16 GB)
+  price_cents: 7990
+  default_stock: 25
+  tier: budget
+  tags: [ddr4, rgb, gaming]
+  summary: A 32 GB RGB DDR4 kit with a 3600 MT/s profile for builders who like to tune their memory.
+  spec:
+    memory_type: ddr4
+    modules: 2
+    module_gb: 16
+    speed_mts: 3600
+    cas_latency: 18
+    height_mm: 48
+
+- id: nimbus-ddr4-3200-64
+  sku: RAM-NIM-D4-3200-4X16
+  brand: Nimbus
+  name: Nimbus Cirrus DDR4-3200 64 GB (4x16 GB)
+  price_cents: 11990
+  default_stock: 15
+  tier: mid
+  tags: [ddr4, workstation, four-modules]
+  summary: A four-module 64 GB DDR4 kit for AM4 and DDR4 Intel workstations; needs a board with four memory slots.
+  spec:
+    memory_type: ddr4
+    modules: 4
+    module_gb: 16
+    speed_mts: 3200
+    cas_latency: 16
+    height_mm: 42
+
+# --- DDR5 (AM5, LGA1851, DDR5 boards on LGA1700) ---------------------------
+
+- id: nimbus-ddr5-4800-16
+  sku: RAM-NIM-D5-4800-2X8
+  brand: Nimbus
+  name: Nimbus Stratus DDR5-4800 16 GB (2x8 GB)
+  price_cents: 4490
+  default_stock: 40
+  tier: budget
+  tags: [ddr5, budget, low-profile]
+  summary: The most affordable way into DDR5, a 16 GB kit at 4800 MT/s for office PCs and upgrades from DDR4 builds.
+  spec:
+    memory_type: ddr5
+    modules: 2
+    module_gb: 8
+    speed_mts: 4800
+    cas_latency: 40
+    height_mm: 32
+
+- id: nimbus-ddr5-5600-16
+  sku: RAM-NIM-D5-5600-2X8
+  brand: Nimbus
+  name: Nimbus Stratus DDR5-5600 16 GB (2x8 GB)
+  price_cents: 5490
+  default_stock: 40
+  tier: budget
+  tags: [ddr5, budget, low-profile]
+  summary: An entry-level 16 GB DDR5 kit at 5600 MT/s for office PCs and budget DDR5 builds.
+  spec:
+    memory_type: ddr5
+    modules: 2
+    module_gb: 8
+    speed_mts: 5600
+    cas_latency: 46
+    height_mm: 32
+
+- id: nimbus-ddr5-5200-32
+  sku: RAM-NIM-D5-5200-2X16
+  brand: Nimbus
+  name: Nimbus Stratus DDR5-5200 32 GB (2x16 GB)
+  price_cents: 6990
+  default_stock: 35
+  tier: budget
+  tags: [ddr5, budget, low-profile]
+  summary: A budget 32 GB DDR5 kit at 5200 MT/s, priced like a 32 GB DDR4 kit, for anyone moving to an AM5 or DDR5 board.
+  spec:
+    memory_type: ddr5
+    modules: 2
+    module_gb: 16
+    speed_mts: 5200
+    cas_latency: 42
+    height_mm: 32
+
+- id: nimbus-ddr5-5600-32
+  sku: RAM-NIM-D5-5600-2X16
+  brand: Nimbus
+  name: Nimbus Stratus DDR5-5600 32 GB (2x16 GB)
+  price_cents: 8490
+  default_stock: 40
+  tier: budget
+  tags: [ddr5, budget, low-profile]
+  summary: A 32 GB DDR5 kit at 5600 MT/s, the speed most current CPUs officially support, at a budget price.
+  spec:
+    memory_type: ddr5
+    modules: 2
+    module_gb: 16
+    speed_mts: 5600
+    cas_latency: 40
+    height_mm: 32
+
+- id: nimbus-ddr5-6000-32
+  sku: RAM-NIM-D5-6000-2X16
+  brand: Nimbus
+  name: Nimbus Stratus DDR5-6000 32 GB (2x16 GB)
+  price_cents: 10990
+  default_stock: 35
+  tier: mid
+  tags: [ddr5, gaming, low-profile]
+  summary: A 32 GB dual-channel DDR5 kit at 6000 MT/s with a low heat spreader that clears big coolers.
+  spec:
+    memory_type: ddr5
+    modules: 2
+    module_gb: 16
+    speed_mts: 6000
+    cas_latency: 30
+    height_mm: 34
+
+- id: lumen-ddr5-6000-32
+  sku: RAM-LUM-D5-6000-2X16
+  brand: Lumen
+  name: Lumen Pulse DDR5-6000 32 GB (2x16 GB)
+  price_cents: 12490
+  default_stock: 25
+  tier: mid
+  tags: [ddr5, rgb, gaming]
+  summary: A 32 GB DDR5-6000 CL30 kit with an RGB light bar for showcase gaming builds.
+  spec:
+    memory_type: ddr5
+    modules: 2
+    module_gb: 16
+    speed_mts: 6000
+    cas_latency: 30
+    height_mm: 46
+
+- id: lumen-ddr5-7200-32
+  sku: RAM-LUM-D5-7200-2X16
+  brand: Lumen
+  name: Lumen Apex DDR5-7200 32 GB (2x16 GB)
+  price_cents: 16990
+  default_stock: 10
+  tier: mid
+  tags: [ddr5, overclocking, rgb]
+  summary: A 32 GB DDR5 kit binned for 7200 MT/s, for enthusiasts with a board and CPU that can run it.
+  spec:
+    memory_type: ddr5
+    modules: 2
+    module_gb: 16
+    speed_mts: 7200
+    cas_latency: 34
+    height_mm: 52
+
+- id: nimbus-ddr5-6000-64
+  sku: RAM-NIM-D5-6000-4X16
+  brand: Nimbus
+  name: Nimbus Stratus DDR5-6000 64 GB (4x16 GB)
+  price_cents: 21990
+  default_stock: 10
+  tier: high
+  tags: [ddr5, workstation, four-modules]
+  summary: A four-module 64 GB DDR5 kit that fills all four slots of an ATX or Micro-ATX board.
+  spec:
+    memory_type: ddr5
+    modules: 4
+    module_gb: 16
+    speed_mts: 6000
+    cas_latency: 30
+    height_mm: 34
+
+- id: lumen-ddr5-6400-64
+  sku: RAM-LUM-D5-6400-2X32
+  brand: Lumen
+  name: Lumen Pulse DDR5-6400 64 GB (2x32 GB)
+  price_cents: 22990
+  default_stock: 12
+  tier: high
+  tags: [ddr5, rgb, workstation]
+  summary: A 64 GB DDR5-6400 kit in two modules, so even two-slot boards get 64 GB with RGB on top.
+  spec:
+    memory_type: ddr5
+    modules: 2
+    module_gb: 32
+    speed_mts: 6400
+    cas_latency: 32
+    height_mm: 46
+
+- id: nimbus-ddr5-6400-96
+  sku: RAM-NIM-D5-6400-2X48
+  brand: Nimbus
+  name: Nimbus Stratus DDR5-6400 96 GB (2x48 GB)
+  price_cents: 29990
+  default_stock: 8
+  tier: high
+  tags: [ddr5, workstation, high-capacity]
+  summary: A 96 GB DDR5 kit in two 48 GB modules for big datasets, VMs and video work; check your board's maximum.
+  spec:
+    memory_type: ddr5
+    modules: 2
+    module_gb: 48
+    speed_mts: 6400
+    cas_latency: 32
+    height_mm: 34

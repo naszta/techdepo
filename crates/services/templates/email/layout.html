@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>{{ subject }}</title>
+</head>
+<body style="margin:0;padding:0;background:#f4f4f5;color:#18181b;font-family:Geist,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">{{ preheader }}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;">
+<tr><td align="center" style="padding:24px 12px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #e4e4e7;border-radius:12px;">
+<tr><td style="padding:8px 24px;background:#fafafa;border-bottom:1px solid #e4e4e7;border-radius:12px 12px 0 0;font-size:12px;color:#52525b;">{{ banner }}</td></tr>
+<tr><td style="padding:24px 24px 0;font-size:18px;font-weight:600;letter-spacing:-0.01em;">Tech<span style="color:#4f46e5;">Depó</span></td></tr>
+<tr><td style="padding:16px 24px 8px;">
+<h1 style="margin:0 0 16px;font-size:20px;line-height:1.3;font-weight:600;color:#18181b;">{{ heading }}</h1>
+{% for block in blocks %}
+{% if block.kind == "text" %}
+<p style="margin:0 0 14px;white-space:pre-line;">{{ block.text }}</p>
+{% else if block.kind == "note" %}
+<p style="margin:0 0 14px;padding:10px 12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;white-space:pre-line;color:#3730a3;">{{ block.text }}</p>
+{% else if block.kind == "quote" %}
+<p style="margin:0 0 14px;padding:4px 0 4px 12px;border-left:3px solid #e4e4e7;color:#52525b;white-space:pre-line;">{{ block.text }}</p>
+{% else if block.kind == "facts" %}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;border:1px solid #e4e4e7;border-radius:8px;">
+{% for fact in block.rows %}
+<tr><td style="padding:8px 12px;color:#71717a;font-size:13px;width:40%;{% if !loop.first %}border-top:1px solid #f4f4f5;{% endif %}">{{ fact.label }}</td><td style="padding:8px 12px;font-variant-numeric:tabular-nums;{% if !loop.first %}border-top:1px solid #f4f4f5;{% endif %}">{{ fact.value }}</td></tr>
+{% endfor %}
+</table>
+{% else if block.kind == "items" %}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;border-collapse:collapse;font-variant-numeric:tabular-nums;">
+<tr><th align="left" style="padding:6px 0;border-bottom:1px solid #e4e4e7;font-size:12px;font-weight:500;color:#71717a;">Item</th><th align="right" style="padding:6px 0;border-bottom:1px solid #e4e4e7;font-size:12px;font-weight:500;color:#71717a;">Qty</th><th align="right" style="padding:6px 0;border-bottom:1px solid #e4e4e7;font-size:12px;font-weight:500;color:#71717a;">Amount</th></tr>
+{% for item in block.items %}
+<tr><td style="padding:8px 8px 8px 0;border-bottom:1px solid #f4f4f5;">{{ item.name }}{% if !item.sku.is_empty() %}<br><span style="font-family:'Geist Mono',ui-monospace,Menlo,monospace;font-size:12px;color:#71717a;">{{ item.sku }}</span>{% endif %}</td><td align="right" style="padding:8px 0;border-bottom:1px solid #f4f4f5;">{{ item.quantity }}</td><td align="right" style="padding:8px 0;border-bottom:1px solid #f4f4f5;">{{ item.amount }}</td></tr>
+{% endfor %}
+{% for fact in block.rows %}
+<tr><td colspan="2" style="padding:6px 0;{% if loop.last %}font-weight:600;{% else %}color:#52525b;{% endif %}">{{ fact.label }}</td><td align="right" style="padding:6px 0;{% if loop.last %}font-weight:600;{% else %}color:#52525b;{% endif %}">{{ fact.value }}</td></tr>
+{% endfor %}
+</table>
+{% endif %}
+{% endfor %}
+{% if let Some(cta) = cta %}
+<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 16px;"><tr><td style="background:#4f46e5;border-radius:8px;"><a href="{{ cta.url }}" style="display:inline-block;padding:10px 18px;color:#ffffff;text-decoration:none;font-weight:500;">{{ cta.label }}</a></td></tr></table>
+{% endif %}
+<p style="margin:16px 0 8px;color:#18181b;">{{ sign_off }}</p>
+</td></tr>
+<tr><td style="padding:16px 24px;border-top:1px solid #e4e4e7;font-size:12px;line-height:1.5;color:#71717a;">
+{{ footer }}<br>
+Questions? Reply to this email or write to <a href="mailto:{{ support_address }}" style="color:#4f46e5;text-decoration:none;">{{ support_address }}</a>.
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>

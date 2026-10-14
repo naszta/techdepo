@@ -1,0 +1,299 @@
+let cargoDenyVersion: String! = "0.20.2"
+let nodeVersion: String! = "lts"
+
+# The Workers, by directory under apps/.
+let apps: [String!]! = ["services", "web-worker", "mail-in"]
+
+# The D1 database_id committed in the wrangler.toml files: local only (wrangler dev ignores it).
+let placeholderDatabaseId: String! = "00000000-0000-0000-0000-000000000000"
+
+"""
+TechDepó's checks beyond the rust module's (fmt, clippy and tests in dagger.toml), and the deploy.
+
+Checks: cargo deny, the catalog validation, and the release builds of the three Workers (the web
+worker with the SPA). See docs/plan/architecture.md, "CI and deployment".
+"""
+type Ci {
+  let ws: Workspace!
+  let source: Directory!
+
+  new(ws: Workspace!) {
+    self.ws = ws
+    self.source = ws.directory("/", gitignore: true)
+
+    self
+  }
+
+  """
+  cargo deny: advisories, licenses, bans and sources (deny.toml).
+  """
+  deny: Void @check {
+    self
+      .cargo
+      .withFile("/usr/local/bin/cargo-deny", cargoDeny(cargoDenyVersion))
+      .withExec(["cargo", "deny", "--locked", "check"])
+      .sync
+
+    null
+  }
+
+  """
+  The embedded catalog: schema, plausibility, price tiers, coverage and content (xtask).
+  """
+  catalog: Void @check {
+    self
+      .cargo
+      .withExec(["cargo", "run", "--locked", "-p", "xtask", "--", "catalog", "validate"])
+      .sync
+
+    null
+  }
+
+  """
+  Release build of the Restate services worker (apps/services).
+  """
+  servicesWorker: Void @check {
+    self.bundle("services").sync
+
+    null
+  }
+
+  """
+  Release build of the web worker (apps/web-worker), with the SPA as its static assets.
+  """
+  webWorker: Void @check {
+    self.bundle("web-worker").sync
+
+    null
+  }
+
+  """
+  Release build of the inbound mail worker (apps/mail-in).
+  """
+  mailInWorker: Void @check {
+    self.bundle("mail-in").sync
+
+    null
+  }
+
+  """
+  Release build of a Worker: worker-build's output (the build/ directory its wrangler.toml names).
+  """
+  worker(
+    """
+    The Worker's directory under apps/: services, web-worker or mail-in.
+    """
+    app: String!,
+  ): Directory! {
+    checkApp(app)
+
+    Dagger.workerBuild(ws: self.ws.withWorkdir("apps/" + app)).build(release: true)
+  }
+
+  """
+  The SPA (apps/web) as the web worker serves it: the dx release bundle plus the Tailwind CSS.
+  """
+  spa: Directory! {
+    # index.html links /tailwind.css; scripts/build-web.sh builds it the same way.
+    let css = Dagger
+      .container
+      .from("node:" + nodeVersion)
+      .withMountedCache("/root/.npm", Dagger.cacheVolume("npm"))
+      .withDirectory("/work/web", self.source.directory("apps/web"))
+      .withWorkdir("/work/web")
+      .withExec(["npm", "ci", "--no-audit", "--no-fund"])
+      .withExec(["npx", "tailwindcss", "-i", "./tailwind.css", "-o", "./public/tailwind.css", "--minify"])
+      .file("public/tailwind.css")
+
+    # -p: dx 0.7.10 panics resolving the workspace's default-members without it.
+    Dagger
+      .dioxus(ws: self.ws.withWorkdir("apps/web"))
+      .bundle(platform: DioxusPlatform.WEB, release: true, package: "techdepo-web")
+      .directory("public")
+      .withFile("tailwind.css", css)
+  }
+
+  """
+  What wrangler deploys for a Worker: its wrangler.toml, worker-build's output in build/ and, for
+  the web worker, the SPA in public/.
+
+  The wrangler.toml loses its [build] step (the build is done) and gets the D1 database ID.
+  """
+  bundle(
+    """
+    The Worker's directory under apps/: services, web-worker or mail-in.
+    """
+    app: String!,
+    """
+    ID of the production D1 database (wrangler d1 create techdepo).
+    """
+    databaseId: String! = placeholderDatabaseId,
+  ): Directory! {
+    let bundle = Dagger
+      .directory
+      .withFile("wrangler.toml", self.deployConfig(app, databaseId))
+      .withDirectory("build", self.worker(app))
+
+    if (app == "web-worker") {
+      bundle = bundle.withDirectory("public", self.spa)
+    }
+
+    bundle
+  }
+
+  """
+  Deploy to production: the D1 migrations, then the services worker as a new version registered
+  with Restate Cloud before it takes traffic, then the web and mail-in workers.
+
+  Returns the services version's preview URL: the deployment Restate calls.
+  """
+  deploy(
+    """
+    Cloudflare account ID.
+    """
+    accountId: String!,
+    """
+    Cloudflare API token (Workers Scripts:Edit, D1:Edit).
+    """
+    apiToken: Secret!,
+    """
+    ID of the production D1 database (wrangler d1 create techdepo).
+    """
+    databaseId: String!,
+    """
+    Restate Cloud admin API URL.
+    """
+    restateAdminUrl: String!,
+    """
+    Restate Cloud API key with admin access.
+    """
+    restateAdminToken: Secret!,
+    """
+    Message recorded with each Worker version (e.g. the commit).
+    """
+    message: String,
+  ): String! @cache(policy: FunctionCachePolicy.Never) {
+    let wrangler = Dagger.wrangler(environment: "production", accountId: accountId, apiToken: apiToken)
+
+    # 1. The schema first: migrations are additive, so the running code keeps working on it.
+    wrangler
+      .container
+      .withEnvVariable("__DAGGER_CACHE_BUST", Random.string)
+      .withEnvVariable("CI", "true")
+      .withDirectory("/work/src/migrations", self.source.directory("migrations"))
+      .withFile("/work/src/apps/services/wrangler.toml", self.deployConfig("services", databaseId))
+      .withWorkdir("/work/src/apps/services")
+      .withExec(["wrangler", "d1", "migrations", "apply", "techdepo", "--remote"])
+      .sync
+
+    # 2. The services. Restate keeps each invocation on the deployment that started it, so every
+    # version is registered under its own immutable preview URL, and only then promoted.
+    let services = self.bundle("services", databaseId)
+    let upload = wrangler.versions.upload(services, message: message)
+    let previewUrl = upload.previewUrl
+    if (previewUrl == null or previewUrl == "") {
+      raise "wrangler returned no preview URL for techdepo-services (preview_urls in wrangler.toml)"
+    }
+
+    registerDeployment(restateAdminUrl, restateAdminToken, previewUrl!)
+
+    wrangler
+      .container
+      .withEnvVariable("__DAGGER_CACHE_BUST", Random.string)
+      .withDirectory("/work/src", services)
+      .withWorkdir("/work/src")
+      .withExec(["wrangler", "versions", "deploy", upload.versionId + "@100%", "--yes"])
+      .sync
+
+    # 3. The web and mail-in workers call the services through Restate ingress.
+    wrangler.deploy(self.bundle("web-worker", databaseId), message: message).sync
+    wrangler.deploy(self.bundle("mail-in", databaseId), message: message).sync
+
+    previewUrl!
+  }
+
+  """
+  A Rust container with the source and the cargo download caches.
+  """
+  let cargo: Container! {
+    Dagger
+      .container
+      .from("rust:latest")
+      .withMountedCache("/usr/local/cargo/registry/index", Dagger.cacheVolume("techdepo-cargo-registry-index"))
+      .withMountedCache("/usr/local/cargo/registry/cache", Dagger.cacheVolume("techdepo-cargo-registry-cache"))
+      .withMountedCache("/usr/local/cargo/git/db", Dagger.cacheVolume("techdepo-cargo-git-db"))
+      .withDirectory("/work/src", self.source)
+      .withWorkdir("/work/src")
+  }
+
+  """
+  A Worker's wrangler.toml for deployment: without the [build] table, with the D1 database ID.
+  """
+  let deployConfig(app: String!, databaseId: String!): File! {
+    checkApp(app)
+
+    Dagger
+      .container
+      .from("alpine:3")
+      .withFile("/work/wrangler.toml", self.source.file("apps/" + app + "/wrangler.toml"))
+      .withEnvVariable("PLACEHOLDER_DATABASE_ID", placeholderDatabaseId)
+      .withEnvVariable("D1_DATABASE_ID", databaseId)
+      .withExec([
+        "sh",
+        "-c",
+        `awk 'substr($0, 1, 1) == "[" { skip = ($0 == "[build]") } !skip' /work/wrangler.toml | sed "s/$PLACEHOLDER_DATABASE_ID/$D1_DATABASE_ID/" > /work/deploy.toml`,
+      ])
+      .file("/work/deploy.toml")
+  }
+}
+
+let checkApp(app: String!): Void {
+  if (!apps.contains(app)) {
+    raise "unknown app " + app + ": expected one of " + apps.join(", ")
+  }
+
+  null
+}
+
+"""
+The cargo-deny binary from its GitHub release.
+"""
+let cargoDeny(version: String!): File! {
+  let arch = case (Dagger.defaultPlatform) {
+    "linux/amd64" => "x86_64"
+    "linux/arm64" => "aarch64"
+    else => raise "unsupported platform: " + toString(Dagger.defaultPlatform)
+  }
+  let name = `cargo-deny-${version}-${arch}-unknown-linux-musl`
+
+  Dagger
+    .container
+    .from("alpine:3")
+    .withFile(
+      "/work/cargo-deny.tar.gz",
+      Dagger.http(`https://github.com/EmbarkStudios/cargo-deny/releases/download/${version}/${name}.tar.gz`),
+    )
+    .withExec(["tar", "-xzf", "/work/cargo-deny.tar.gz", "-C", "/work"])
+    .file(`/work/${name}/cargo-deny`)
+}
+
+"""
+Register a deployment with the Restate admin API (Restate Cloud), over HTTP/1.1 like locally.
+"""
+let registerDeployment(adminUrl: String!, token: Secret!, uri: String!): Void {
+  Dagger
+    .container
+    .from("alpine:3")
+    .withExec(["apk", "add", "--no-cache", "curl"])
+    .withNewFile("/work/deployment.json", `{"uri": "${uri}", "use_http_11": true}`)
+    .withEnvVariable("RESTATE_ADMIN_URL", adminUrl.trimSuffix("/"))
+    .withSecretVariable("RESTATE_ADMIN_TOKEN", token)
+    .withExec([
+      "sh",
+      "-c",
+      `curl --fail-with-body -sS -X POST "$RESTATE_ADMIN_URL/deployments" -H "authorization: Bearer $RESTATE_ADMIN_TOKEN" -H "content-type: application/json" --data @/work/deployment.json`,
+    ])
+    .sync
+
+  null
+}

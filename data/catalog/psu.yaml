@@ -1,0 +1,194 @@
+# Power supplies. Schema: data/catalog/README.md
+#
+# Tiers by price: budget < €80, mid €80–€139.99, high ≥ €140.
+
+# --- ATX -------------------------------------------------------------------
+
+- id: ferro-core-550
+  sku: PSU-FER-CORE-550
+  brand: Ferro
+  name: Ferro Core 550
+  price_cents: 5490
+  default_stock: 30
+  tier: budget
+  tags: [atx, bronze, budget]
+  summary: A basic 550 W ATX unit with two PCIe 8-pin connectors for office PCs and entry-level gaming builds.
+  spec:
+    wattage_w: 550
+    form_factor: atx
+    length_mm: 140
+    efficiency: bronze
+    modular: non_modular
+    connectors: { eps_8pin: 1, pcie_8pin: 2, twelve_v_2x6: 0, sata: 5 }
+
+- id: ferro-core-650
+  sku: PSU-FER-CORE-650
+  brand: Ferro
+  name: Ferro Core 650
+  price_cents: 6490
+  default_stock: 30
+  tier: budget
+  tags: [atx, bronze, budget]
+  summary: A dependable 650 W ATX unit with two PCIe 8-pin connectors for mainstream builds.
+  spec:
+    wattage_w: 650
+    form_factor: atx
+    length_mm: 140
+    efficiency: bronze
+    modular: non_modular
+    connectors: { eps_8pin: 1, pcie_8pin: 2, twelve_v_2x6: 0, sata: 6 }
+
+- id: ferro-core-750
+  sku: PSU-FER-CORE-750
+  brand: Ferro
+  name: Ferro Core 750
+  price_cents: 7990
+  default_stock: 25
+  tier: budget
+  tags: [atx, bronze, semi-modular]
+  summary: A semi-modular 750 W ATX unit with four PCIe 8-pin connectors for cards that use classic 8-pin power.
+  spec:
+    wattage_w: 750
+    form_factor: atx
+    length_mm: 150
+    efficiency: bronze
+    modular: semi_modular
+    connectors: { eps_8pin: 2, pcie_8pin: 4, twelve_v_2x6: 0, sata: 6 }
+
+- id: nordwatt-prime-650
+  sku: PSU-NRD-PRIME-650
+  brand: Nordwatt
+  name: Nordwatt Prime 650
+  price_cents: 8990
+  default_stock: 20
+  tier: mid
+  tags: [atx, gold, fully-modular, atx-3]
+  summary: A fully modular 650 W Gold ATX unit with a native 12V-2x6 cable for efficient mid-range builds.
+  spec:
+    wattage_w: 650
+    form_factor: atx
+    length_mm: 140
+    efficiency: gold
+    modular: fully_modular
+    connectors: { eps_8pin: 1, pcie_8pin: 2, twelve_v_2x6: 1, sata: 6 }
+
+- id: nordwatt-prime-750
+  sku: PSU-NRD-PRIME-750
+  brand: Nordwatt
+  name: Nordwatt Prime 750
+  price_cents: 10990
+  default_stock: 20
+  tier: mid
+  tags: [atx, gold, fully-modular, atx-3]
+  summary: A fully modular 750 W Gold ATX unit with 12V-2x6 and three PCIe 8-pin cables, quiet under gaming loads.
+  spec:
+    wattage_w: 750
+    form_factor: atx
+    length_mm: 140
+    efficiency: gold
+    modular: fully_modular
+    connectors: { eps_8pin: 2, pcie_8pin: 3, twelve_v_2x6: 1, sata: 8 }
+
+- id: nordwatt-prime-850
+  sku: PSU-NRD-PRIME-850
+  brand: Nordwatt
+  name: Nordwatt Prime 850
+  price_cents: 12990
+  default_stock: 15
+  tier: mid
+  tags: [atx, gold, fully-modular, atx-3]
+  summary: A fully modular 850 W Gold ATX unit with 12V-2x6 and four PCIe 8-pin cables for high-end gaming PCs.
+  spec:
+    wattage_w: 850
+    form_factor: atx
+    length_mm: 150
+    efficiency: gold
+    modular: fully_modular
+    connectors: { eps_8pin: 2, pcie_8pin: 4, twelve_v_2x6: 1, sata: 8 }
+
+- id: nordwatt-prime-1000
+  sku: PSU-NRD-PRIME-1000
+  brand: Nordwatt
+  name: Nordwatt Prime 1000
+  price_cents: 17990
+  default_stock: 10
+  tier: high
+  tags: [atx, gold, fully-modular, atx-3]
+  summary: A fully modular 1000 W Gold ATX unit for flagship graphics cards, 170 mm long.
+  spec:
+    wattage_w: 1000
+    form_factor: atx
+    length_mm: 170
+    efficiency: gold
+    modular: fully_modular
+    connectors: { eps_8pin: 2, pcie_8pin: 6, twelve_v_2x6: 1, sata: 10 }
+
+- id: nordwatt-titan-1200
+  sku: PSU-NRD-TITAN-1200
+  brand: Nordwatt
+  name: Nordwatt Titan 1200
+  price_cents: 27990
+  default_stock: 5
+  tier: high
+  tags: [atx, platinum, fully-modular, atx-3, workstation]
+  summary: A 1200 W Platinum ATX unit with two 12V-2x6 cables for flagship GPUs and workstations; 190 mm long.
+  spec:
+    wattage_w: 1200
+    form_factor: atx
+    length_mm: 190
+    efficiency: platinum
+    modular: fully_modular
+    connectors: { eps_8pin: 3, pcie_8pin: 8, twelve_v_2x6: 2, sata: 12 }
+
+# --- SFX -------------------------------------------------------------------
+
+- id: ferro-sf600
+  sku: PSU-FER-SF600
+  brand: Ferro
+  name: Ferro SF600
+  price_cents: 9990
+  default_stock: 15
+  tier: mid
+  tags: [sfx, gold, fully-modular, small-form-factor]
+  summary: A fully modular 600 W SFX unit with two PCIe 8-pin cables for compact builds with mid-range cards.
+  spec:
+    wattage_w: 600
+    form_factor: sfx
+    length_mm: 100
+    efficiency: gold
+    modular: fully_modular
+    connectors: { eps_8pin: 1, pcie_8pin: 2, twelve_v_2x6: 0, sata: 4 }
+
+- id: ferro-sf750
+  sku: PSU-FER-SF750
+  brand: Ferro
+  name: Ferro SF750
+  price_cents: 14990
+  default_stock: 12
+  tier: high
+  tags: [sfx, gold, fully-modular, small-form-factor]
+  summary: A fully modular 750 W SFX unit with a native 12V-2x6 cable for small, powerful builds.
+  spec:
+    wattage_w: 750
+    form_factor: sfx
+    length_mm: 100
+    efficiency: gold
+    modular: fully_modular
+    connectors: { eps_8pin: 2, pcie_8pin: 2, twelve_v_2x6: 1, sata: 4 }
+
+- id: ferro-sf850l
+  sku: PSU-FER-SF850L
+  brand: Ferro
+  name: Ferro SF850L
+  price_cents: 18990
+  default_stock: 8
+  tier: high
+  tags: [sfx, sfx-l, platinum, fully-modular, small-form-factor]
+  summary: An 850 W Platinum SFX-L unit, 130 mm long, with a quieter 120 mm fan and a native 12V-2x6 cable.
+  spec:
+    wattage_w: 850
+    form_factor: sfx
+    length_mm: 130
+    efficiency: platinum
+    modular: fully_modular
+    connectors: { eps_8pin: 2, pcie_8pin: 2, twelve_v_2x6: 1, sata: 4 }

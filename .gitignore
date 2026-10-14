@@ -1,0 +1,36 @@
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
+# Rust
+target/
+
+.env
+# scripts/deploy.sh: per-environment values (template deploy/env.example)
+deploy/*.env
+
+# Wrangler
+.wrangler/
+# scripts/deploy.sh: each Worker's wrangler.toml as deployed (removed when it exits)
+apps/*/wrangler.deploy.toml
+.dev.vars
+.dev.vars.*
+
+# Node (daisyUI)
+node_modules/
+
+# Build output
+apps/*/build/
+apps/*/dist/
+apps/web/public/tailwind.css
+
+# SPA build output, served as techdepo-web's Static Assets (scripts/build-web.sh)
+apps/web-worker/public/*
+!apps/web-worker/public/.gitkeep

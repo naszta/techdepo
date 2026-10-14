@@ -1,0 +1,18 @@
+{{ banner }}
+
+{{ heading }}
+{% for block in blocks %}
+{% if block.kind == "text" %}{{ block.text }}
+{% else if block.kind == "note" %}> {{ block.text }}
+{% else if block.kind == "quote" %}{% for line in block.text.lines() %}> {{ line }}
+{% endfor %}{% else if block.kind == "facts" %}{% for fact in block.rows %}{{ fact.label }}: {{ fact.value }}
+{% endfor %}{% else if block.kind == "items" %}{% for item in block.items %}{{ item.quantity }} x {{ item.name }}{% if !item.sku.is_empty() %} ({{ item.sku }}){% endif %}  {{ item.amount }}
+{% endfor %}{% for fact in block.rows %}{{ fact.label }}: {{ fact.value }}
+{% endfor %}{% endif %}{% endfor %}{% if let Some(cta) = cta %}
+{{ cta.label }}: {{ cta.url }}
+{% endif %}
+{{ sign_off }}
+
+--
+{{ footer }}
+Questions? Reply to this email or write to {{ support_address }}.

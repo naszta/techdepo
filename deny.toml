@@ -1,0 +1,49 @@
+[graph]
+all-features = true
+
+[advisories]
+ignore = [
+  # rsa (Marvin attack): a timing side channel on private-key operations. rsa reaches us through
+  # jsonwebtoken (restate-sdk-shared-core) and jwt-simple (dioxus-clerk), which only verify
+  # signatures with public keys here. No patched release exists.
+  { id = "RUSTSEC-2023-0071", reason = "public-key verification only; no fix upstream" },
+  # unsafe-libyaml (unmaintained), through serde_yaml: parses our own catalog, KB and eval files,
+  # never untrusted input.
+  { id = "RUSTSEC-2024-0449", reason = "serde_yaml reads only files from this repository" },
+]
+
+[licenses]
+allow = [
+  "Apache-2.0",
+  "MIT",
+
+  "Unicode-3.0",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "ISC",
+  "Zlib",
+  "CDLA-Permissive-2.0",
+  "CC0-1.0",
+]
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# The internal crates are path dependencies without a version (every member is publish = false).
+allow-wildcard-paths = true
+
+# cargo-deny cannot resolve `techdepo-*.workspace = true` (path-only workspace dependencies) and
+# reports each use as a bug; check the registry and git ones only.
+[bans.workspace-dependencies]
+include-path-dependencies = false
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-git = [
+  # restate-sdk with wasm32 support ([patch.crates-io] in Cargo.toml, upstream PR
+  # restatedev/sdk-rust#128).
+  "https://github.com/sagikazarmark/restate-sdk-rust",
+  # dioxus-primitives, pulled in by the dioxus-daisyui-components installed into apps/web.
+  "https://github.com/DioxusLabs/components",
+]

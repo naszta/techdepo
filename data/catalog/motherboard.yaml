@@ -1,0 +1,424 @@
+# Motherboards. Schema: data/catalog/README.md
+#
+# Tiers by price: budget < €120, mid €120–€249.99, high ≥ €250.
+
+# --- AM4 (DDR4) ------------------------------------------------------------
+
+- id: meridian-a520m-core
+  sku: MB-MER-A520M-CORE
+  brand: Meridian
+  name: Meridian A520M Core
+  price_cents: 6990
+  default_stock: 25
+  tier: budget
+  tags: [am4, ddr4, micro-atx, budget]
+  summary: An entry-level Micro-ATX AM4 board with two DDR4 slots and a single M.2 slot for simple, affordable builds.
+  spec:
+    socket: am4
+    chipset: a520
+    form_factor: micro_atx
+    memory_type: ddr4
+    memory_slots: 2
+    max_memory_gb: 64
+    max_memory_speed_mts: 3200
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 3, sata: true }
+    sata_ports: 4
+    pcie_x16_gen: 3
+    bios_version: 12
+    bios_flashback: false
+    cpu_support:
+      - { family: granite, min_bios: 1 }
+    eps_8pin: 1
+    eps_4pin: 0
+    wifi: false
+
+- id: kestrel-b550-glide
+  sku: MB-KES-B550-GLIDE
+  brand: Kestrel
+  name: Kestrel B550 Glide
+  price_cents: 10990
+  default_stock: 22
+  tier: budget
+  tags: [am4, ddr4, atx]
+  summary: A no-nonsense ATX board for AM4 and DDR4 with plenty of SATA ports for older drives.
+  spec:
+    socket: am4
+    chipset: b550
+    form_factor: atx
+    memory_type: ddr4
+    memory_slots: 4
+    max_memory_gb: 128
+    max_memory_speed_mts: 4400
+    m2_slots:
+      - { key: m, max_length_mm: 110, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 3, sata: true }
+    sata_ports: 6
+    pcie_x16_gen: 4
+    bios_version: 20
+    bios_flashback: false
+    cpu_support:
+      - { family: granite, min_bios: 1 }
+    eps_8pin: 1
+    eps_4pin: 0
+    wifi: false
+
+# --- AM5 (DDR5) ------------------------------------------------------------
+
+- id: meridian-a620m-lite
+  sku: MB-MER-A620M-LITE
+  brand: Meridian
+  name: Meridian A620M Lite
+  price_cents: 9490
+  default_stock: 20
+  tier: budget
+  tags: [am5, ddr5, micro-atx, budget]
+  summary: A budget Micro-ATX AM5 board with two DDR5 slots and one M.2 slot; Obsidian CPUs need a BIOS update first.
+  spec:
+    socket: am5
+    chipset: a620
+    form_factor: micro_atx
+    memory_type: ddr5
+    memory_slots: 2
+    max_memory_gb: 64
+    max_memory_speed_mts: 6000
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+    sata_ports: 4
+    pcie_x16_gen: 4
+    bios_version: 8
+    bios_flashback: false
+    cpu_support:
+      - { family: quartz, min_bios: 1 }
+      - { family: obsidian, min_bios: 15 }
+    eps_8pin: 1
+    eps_4pin: 0
+    wifi: false
+
+- id: kestrel-b650m-wing
+  sku: MB-KES-B650M-WING
+  brand: Kestrel
+  name: Kestrel B650M Wing
+  price_cents: 15990
+  default_stock: 18
+  tier: mid
+  tags: [am5, ddr5, wifi, micro-atx]
+  summary: A compact AM5 board with DDR5, two Gen 4 M.2 slots, Wi-Fi and BIOS flashback.
+  spec:
+    socket: am5
+    chipset: b650
+    form_factor: micro_atx
+    memory_type: ddr5
+    memory_slots: 4
+    max_memory_gb: 192
+    max_memory_speed_mts: 7200
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: true }
+      - { key: e, max_length_mm: 30, pcie_gen: 3, sata: false }
+    sata_ports: 4
+    pcie_x16_gen: 4
+    bios_version: 10
+    bios_flashback: true
+    cpu_support:
+      - { family: quartz, min_bios: 1 }
+      - { family: obsidian, min_bios: 16 }
+    eps_8pin: 1
+    eps_4pin: 1
+    wifi: true
+
+- id: kestrel-b650-aero
+  sku: MB-KES-B650-AERO
+  brand: Kestrel
+  name: Kestrel B650 Aero
+  price_cents: 18990
+  default_stock: 15
+  tier: mid
+  tags: [am5, ddr5, wifi, atx]
+  summary: A full-size ATX AM5 board with three Gen 4 M.2 slots, Wi-Fi and a BIOS that supports every AM5 CPU out of the box.
+  spec:
+    socket: am5
+    chipset: b650
+    form_factor: atx
+    memory_type: ddr5
+    memory_slots: 4
+    max_memory_gb: 192
+    max_memory_speed_mts: 7200
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: true }
+      - { key: e, max_length_mm: 30, pcie_gen: 3, sata: false }
+    sata_ports: 4
+    pcie_x16_gen: 4
+    bios_version: 22
+    bios_flashback: true
+    cpu_support:
+      - { family: quartz, min_bios: 1 }
+      - { family: obsidian, min_bios: 16 }
+    eps_8pin: 1
+    eps_4pin: 1
+    wifi: true
+
+- id: kestrel-b650e-i-perch
+  sku: MB-KES-B650EI-PERCH
+  brand: Kestrel
+  name: Kestrel B650E-I Perch
+  price_cents: 25990
+  default_stock: 8
+  tier: high
+  tags: [am5, ddr5, wifi, mini-itx, pcie-5]
+  summary: A Mini-ITX AM5 board with PCIe 5.0 graphics and M.2, Wi-Fi and flashback, made for compact high-end builds.
+  spec:
+    socket: am5
+    chipset: b650e
+    form_factor: mini_itx
+    memory_type: ddr5
+    memory_slots: 2
+    max_memory_gb: 96
+    max_memory_speed_mts: 7600
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 5, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: e, max_length_mm: 30, pcie_gen: 3, sata: false }
+    sata_ports: 2
+    pcie_x16_gen: 5
+    bios_version: 24
+    bios_flashback: true
+    cpu_support:
+      - { family: quartz, min_bios: 1 }
+      - { family: obsidian, min_bios: 16 }
+    eps_8pin: 1
+    eps_4pin: 0
+    wifi: true
+
+- id: meridian-x870e-crest
+  sku: MB-MER-X870E-CREST
+  brand: Meridian
+  name: Meridian X870E Crest
+  price_cents: 38990
+  default_stock: 6
+  tier: high
+  tags: [am5, ddr5, wifi, atx, pcie-5, overclocking]
+  summary: A flagship ATX AM5 board with four M.2 slots (two PCIe 5.0), PCIe 5.0 graphics, Wi-Fi and dual EPS power.
+  spec:
+    socket: am5
+    chipset: x870e
+    form_factor: atx
+    memory_type: ddr5
+    memory_slots: 4
+    max_memory_gb: 256
+    max_memory_speed_mts: 8000
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 5, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 5, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: true }
+      - { key: e, max_length_mm: 30, pcie_gen: 3, sata: false }
+    sata_ports: 4
+    pcie_x16_gen: 5
+    bios_version: 30
+    bios_flashback: true
+    cpu_support:
+      - { family: quartz, min_bios: 1 }
+      - { family: obsidian, min_bios: 1 }
+    eps_8pin: 2
+    eps_4pin: 0
+    wifi: true
+
+# --- LGA1700 (one memory type per board) -----------------------------------
+
+- id: meridian-h610m-base
+  sku: MB-MER-H610M-BASE
+  brand: Meridian
+  name: Meridian H610M Base
+  price_cents: 8490
+  default_stock: 15
+  tier: budget
+  tags: [lga1700, ddr5, micro-atx, budget]
+  summary: An entry-level Micro-ATX LGA1700 board with two DDR5 slots for Falcon CPUs only; Harrier CPUs are not supported.
+  spec:
+    socket: lga1700
+    chipset: h610
+    form_factor: micro_atx
+    memory_type: ddr5
+    memory_slots: 2
+    max_memory_gb: 64
+    max_memory_speed_mts: 4800
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+    sata_ports: 4
+    pcie_x16_gen: 4
+    bios_version: 6
+    bios_flashback: false
+    # Trap: the only board that never got a Harrier BIOS (cpu_support).
+    cpu_support:
+      - { family: falcon, min_bios: 1 }
+    eps_8pin: 1
+    eps_4pin: 0
+    wifi: false
+
+- id: meridian-b760m-forge-d4
+  sku: MB-MER-B760M-FORGE-D4
+  brand: Meridian
+  name: Meridian B760M Forge D4
+  price_cents: 10490
+  default_stock: 18
+  tier: budget
+  tags: [lga1700, ddr4, micro-atx, budget]
+  summary: A Micro-ATX LGA1700 board for DDR4 memory, so you can reuse an older kit; it does not take DDR5.
+  spec:
+    socket: lga1700
+    chipset: b760
+    form_factor: micro_atx
+    memory_type: ddr4
+    memory_slots: 4
+    max_memory_gb: 128
+    max_memory_speed_mts: 4000
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: true }
+    sata_ports: 4
+    pcie_x16_gen: 4
+    bios_version: 16
+    bios_flashback: false
+    cpu_support:
+      - { family: falcon, min_bios: 1 }
+      - { family: harrier, min_bios: 12 }
+    eps_8pin: 1
+    eps_4pin: 0
+    wifi: false
+
+- id: kestrel-b760-vector
+  sku: MB-KES-B760-VECTOR
+  brand: Kestrel
+  name: Kestrel B760 Vector
+  price_cents: 16990
+  default_stock: 15
+  tier: mid
+  tags: [lga1700, ddr5, wifi, atx]
+  summary: A well-rounded ATX board for LGA1700 and DDR5 with three M.2 slots, Wi-Fi and BIOS flashback.
+  spec:
+    socket: lga1700
+    chipset: b760
+    form_factor: atx
+    memory_type: ddr5
+    memory_slots: 4
+    max_memory_gb: 192
+    max_memory_speed_mts: 7200
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: true }
+      - { key: e, max_length_mm: 30, pcie_gen: 3, sata: false }
+    sata_ports: 4
+    pcie_x16_gen: 4
+    bios_version: 14
+    bios_flashback: true
+    cpu_support:
+      - { family: falcon, min_bios: 1 }
+      - { family: harrier, min_bios: 10 }
+    eps_8pin: 1
+    eps_4pin: 1
+    wifi: true
+
+- id: meridian-z790-crest
+  sku: MB-MER-Z790-CREST
+  brand: Meridian
+  name: Meridian Z790 Crest
+  price_cents: 32990
+  default_stock: 8
+  tier: high
+  tags: [lga1700, ddr5, wifi, atx, overclocking]
+  summary: A high-end Z790 ATX board for LGA1700 and DDR5 with four M.2 slots, PCIe 5.0 graphics, Wi-Fi and dual EPS power.
+  spec:
+    socket: lga1700
+    chipset: z790
+    form_factor: atx
+    memory_type: ddr5
+    memory_slots: 4
+    max_memory_gb: 192
+    max_memory_speed_mts: 7800
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 5, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: true }
+      - { key: e, max_length_mm: 30, pcie_gen: 3, sata: false }
+    sata_ports: 6
+    pcie_x16_gen: 5
+    bios_version: 18
+    bios_flashback: true
+    cpu_support:
+      - { family: falcon, min_bios: 1 }
+      - { family: harrier, min_bios: 1 }
+    eps_8pin: 2
+    eps_4pin: 0
+    wifi: true
+
+# --- LGA1851 (DDR5) --------------------------------------------------------
+
+- id: kestrel-b860i-hover
+  sku: MB-KES-B860I-HOVER
+  brand: Kestrel
+  name: Kestrel B860I Hover
+  price_cents: 17990
+  default_stock: 10
+  tier: mid
+  tags: [lga1851, ddr5, wifi, mini-itx]
+  summary: A Mini-ITX LGA1851 board for Osprey CPUs with DDR5, a PCIe 5.0 M.2 slot, Wi-Fi and flashback.
+  spec:
+    socket: lga1851
+    chipset: b860
+    form_factor: mini_itx
+    memory_type: ddr5
+    memory_slots: 2
+    max_memory_gb: 128
+    max_memory_speed_mts: 8000
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 5, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: e, max_length_mm: 30, pcie_gen: 3, sata: false }
+    sata_ports: 2
+    pcie_x16_gen: 5
+    bios_version: 5
+    bios_flashback: true
+    cpu_support:
+      - { family: osprey, min_bios: 1 }
+    eps_8pin: 1
+    eps_4pin: 0
+    wifi: true
+
+- id: meridian-z890-crest
+  sku: MB-MER-Z890-CREST
+  brand: Meridian
+  name: Meridian Z890 Crest
+  price_cents: 35990
+  default_stock: 6
+  tier: high
+  tags: [lga1851, ddr5, wifi, atx, overclocking]
+  summary: A flagship Z890 ATX board for Osprey CPUs with five M.2 slots, DDR5-8800 support and dual EPS power.
+  spec:
+    socket: lga1851
+    chipset: z890
+    form_factor: atx
+    memory_type: ddr5
+    memory_slots: 4
+    max_memory_gb: 256
+    max_memory_speed_mts: 8800
+    m2_slots:
+      - { key: m, max_length_mm: 80, pcie_gen: 5, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: false }
+      - { key: m, max_length_mm: 80, pcie_gen: 4, sata: true }
+      - { key: e, max_length_mm: 30, pcie_gen: 3, sata: false }
+    sata_ports: 4
+    pcie_x16_gen: 5
+    bios_version: 10
+    bios_flashback: true
+    cpu_support:
+      - { family: osprey, min_bios: 1 }
+    eps_8pin: 2
+    eps_4pin: 0
+    wifi: true

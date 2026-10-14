@@ -1,0 +1,99 @@
+/* TechDepó SPA styles: Tailwind v4 + daisyUI 5 (docs/plan/design.md, "Foundation").
+ * Built by `npm run css` (or scripts/build-web.sh) into public/tailwind.css, which is git-ignored.
+ * No custom CSS beyond the theme definitions, the font faces, the `dark:` variant and the one
+ * segmented-control rule at the end (all recorded in design.md, "Foundation"). */
+
+@import "tailwindcss";
+@source "./src/**/*.rs";
+@source "./index.html";
+@plugin "daisyui" { themes: false; }
+
+@plugin "daisyui/theme" {
+  name: "techdepo";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+  --color-base-100: #ffffff;   --color-base-200: #fafafa;  --color-base-300: #e4e4e7;
+  --color-base-content: #18181b;
+  --color-primary: #4f46e5;    --color-primary-content: #ffffff;
+  --color-neutral: #18181b;    --color-neutral-content: #fafafa;
+  --color-info: #1d4ed8;  --color-success: #15803d;  --color-warning: #b45309;  --color-error: #b91c1c;
+  --radius-box: 0.875rem;  --radius-field: 0.625rem;  --radius-selector: 0.5rem;
+  --border: 1px;  --depth: 0;  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "techdepo-dark";
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-100: #16161a;   --color-base-200: #0c0c0f;  --color-base-300: #27272a;
+  --color-base-content: #fafafa;
+  --color-primary: #5850ec;    --color-primary-content: #ffffff;
+  --color-neutral: #fafafa;    --color-neutral-content: #18181b;
+  --color-info: #60a5fa;  --color-success: #4ade80;  --color-warning: #fbbf24;  --color-error: #f87171;
+  --radius-box: 0.875rem;  --radius-field: 0.625rem;  --radius-selector: 0.5rem;
+  --border: 1px;  --depth: 0;  --noise: 0;
+}
+
+/* `dark:` follows the active daisyUI theme: an explicit `data-theme` (the toggle's choice), or,
+   without one, the OS setting, exactly when daisyUI applies techdepo-dark through `prefersdark`. */
+@custom-variant dark {
+  &:where([data-theme=techdepo-dark], [data-theme=techdepo-dark] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme]), :root:not([data-theme]) *) {
+      @slot;
+    }
+  }
+}
+
+@theme {
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+/* Self-hosted from Static Assets (apps/web/public/fonts, copied from @fontsource-variable). */
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(/fonts/geist-latin-ext-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(/fonts/geist-latin-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(/fonts/geist-mono-latin-ext-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(/fonts/geist-mono-latin-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* The pressed button of a segmented control (`join` of `btn`s, ToggleGroup). daisyUI's
+   `btn-active` on a neutral `btn` only shifts the background a few percent, so the selected
+   filter was hard to tell apart, especially in the dark theme; use the accent tint the sidebar
+   uses for the current page. Unlayered on purpose: daisyUI 5 puts `.btn` in nested layers
+   inside `utilities`, which beat anything in `@layer components` whatever its specificity. */
+.join > .btn.btn-active {
+  background-color: color-mix(in oklab, var(--color-primary) 14%, var(--color-base-100));
+  border-color: color-mix(in oklab, var(--color-primary) 35%, transparent);
+  color: var(--color-primary);
+}
